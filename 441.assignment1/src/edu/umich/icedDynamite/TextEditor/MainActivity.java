@@ -1,4 +1,6 @@
-package com.assignment1441;
+package edu.umich.icedDynamite.TextEditor;
+
+import edu.umich.icedDynamite.TextEditor.R;
 
 import android.os.Bundle;
 import android.app.Activity;
