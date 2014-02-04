@@ -1,6 +1,11 @@
 package edu.umich.icedDynamite.WeWrite;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -50,7 +55,8 @@ public class MainActivity extends Activity implements
   private long sessionId;
   private String sessionName;
   private String password = "password";
-
+  
+  
   // redundant but for the sake of readability
   private CollabrifySessionListener sessionListener = this;
   private CollabrifyListSessionsListener listSessionsListener = this;
@@ -63,6 +69,21 @@ public class MainActivity extends Activity implements
   Stack<TextAction> undoStack = new Stack<TextAction>();
   Stack<TextAction> redoStack = new Stack<TextAction>();
   
+  // Convert object to byte array
+  public static byte[] serialize(Object obj) throws IOException {
+      ByteArrayOutputStream b = new ByteArrayOutputStream();
+      ObjectOutputStream o = new ObjectOutputStream(b);
+      o.writeObject(obj);
+      return b.toByteArray();
+  }
+  
+  // Convert byte array to object
+  public static Object deserialize(byte[] bytes) throws IOException, ClassNotFoundException {
+      ByteArrayInputStream b = new ByteArrayInputStream(bytes);
+      ObjectInputStream o = new ObjectInputStream(b);
+      return o.readObject();
+  }
+  
   @Override
   public void onReceiveEvent(long orderId, int submissionRegistrationId,
       String eventType, final byte[] data, long elapsed)
@@ -74,9 +95,18 @@ public class MainActivity extends Activity implements
       @Override
       public void run()
       {
-        Utils.printMethodName(TAG);
-        String message = new String(data);
-        broadcastText.setText(message);
+    	try {
+    	  TextAction recvText = (TextAction) deserialize(data);
+    	  broadcastText.getText().replace(recvText.location, 1, recvText.text);
+    	  
+	      Utils.printMethodName(TAG);
+	      String message = new String(data);
+	      broadcastText.setText(message);
+		} 
+        catch (Exception e) {
+		  // TODO Auto-generated catch block
+		  e.printStackTrace();
+		}
       }
     });
   }
@@ -165,7 +195,7 @@ public class MainActivity extends Activity implements
 
     broadcastText = (EditText) findViewById(R.id.broadcastText);
     connectButton = (Button) findViewById(R.id.ConnectButton);
-
+    
     // Instantiate client object
     try
     {
@@ -203,6 +233,10 @@ public class MainActivity extends Activity implements
     {
       try
       {
+    	// Create and serialize textAction with location and text
+    	TextAction broadcastChar = new TextAction();
+    	broadcastChar.location = broadcastText.getSelectionEnd();
+    	
         myClient.broadcast(broadcastText.getText().toString().getBytes(),
             "lol", broadcastListener);
         //broadcastText.getText().clear();

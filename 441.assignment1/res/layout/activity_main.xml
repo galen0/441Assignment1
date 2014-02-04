@@ -35,6 +35,18 @@
         android:onClick="doJoinSession"
         android:text="Join Session" />
 
+<<<<<<< HEAD
+=======
+    <EditText
+        android:id="@+id/usernameText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignRight="@+id/getSessionButton"
+        android:layout_alignTop="@+id/ConnectButton"
+        android:ems="10" />
+
+>>>>>>> 990eddfeac93cd941c322bdfce5895265a45fe10
     <Button
         android:id="@+id/redo"
         android:layout_width="wrap_content"
@@ -50,6 +62,10 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/getSessionButton"
         android:layout_alignParentLeft="true"
+<<<<<<< HEAD
+=======
+        android:layout_alignRight="@+id/usernameText"
+>>>>>>> 990eddfeac93cd941c322bdfce5895265a45fe10
         android:onClick="undo"
         android:text="Undo" />
 
