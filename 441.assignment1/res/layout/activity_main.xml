@@ -3,48 +3,76 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <Button
-        android:id="@+id/LeaveSessionButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:onClick="doLeaveSession"
-        android:text="Leave Session" />
-
-    <Button
-        android:id="@+id/getSessionButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/ConnectButton"
-        android:layout_alignBottom="@+id/ConnectButton"
-        android:layout_toRightOf="@+id/ConnectButton"
-        android:onClick="doJoinSession"
-        android:text="Join Session" />
-
-    <Button
-        android:id="@+id/ConnectButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/LeaveSessionButton"
-        android:layout_alignParentLeft="true"
-        android:layout_marginLeft="19dp"
-        android:onClick="doCreateSession"
-        android:text="Create Session" />
-
     <EditText
         android:id="@+id/broadcastText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/getSessionButton"
+        android:layout_above="@+id/redo"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:ems="10"
         android:gravity="top"
         android:inputType="textMultiLine" >
-
         <requestFocus />
     </EditText>
+
+    <Button
+        android:id="@+id/LeaveSessionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/ConnectButton"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:onClick="doLeaveSession"
+        android:text="Leave Session" />
+
+    <Button
+        android:id="@+id/ConnectButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/getSessionButton"
+        android:layout_alignParentRight="true"
+        android:onClick="doCreateSession"
+        android:text="Create Session" />
+
+    <Button
+        android:id="@+id/getSessionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:onClick="doJoinSession"
+        android:text="Join Session" />
+
+    <EditText
+        android:id="@+id/usernameText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignRight="@+id/getSessionButton"
+        android:layout_alignTop="@+id/ConnectButton"
+        android:ems="10" />
+
+    <Button
+        android:id="@+id/redo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/ConnectButton"
+        android:layout_alignLeft="@+id/ConnectButton"
+        android:layout_alignParentRight="true"
+        android:onClick="redo"
+        android:text="Redo" />
+
+    <Button
+        android:id="@+id/undo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/redo"
+        android:layout_alignBottom="@+id/redo"
+        android:layout_alignParentLeft="true"
+        android:layout_alignRight="@+id/usernameText"
+        android:onClick="undo"
+        android:text="Undo" />
 
 </RelativeLayout>
