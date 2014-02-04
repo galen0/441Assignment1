@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <EditText
+    <edu.umich.icedDynamite.WeWrite.CustomEditText
         android:id="@+id/broadcastText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -15,7 +15,7 @@
         android:gravity="top"
         android:inputType="textMultiLine" >
         <requestFocus />
-    </EditText>
+    </edu.umich.icedDynamite.WeWrite.CustomEditText>
 
     <Button
         android:id="@+id/LeaveSessionButton"

@@ -50,7 +50,7 @@ public class MainActivity extends Activity implements
   private static final String ACCESS_TOKEN = "338692774BBE";
 
   private CollabrifyClient myClient;
-  private EditText broadcastText;
+  private CustomEditText broadcastText;
   private Button connectButton;
   private ArrayList<String> tags = new ArrayList<String>();
   private long sessionId;
@@ -194,20 +194,33 @@ public class MainActivity extends Activity implements
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
 
-    broadcastText = (EditText) findViewById(R.id.broadcastText);
+    broadcastText = (CustomEditText) findViewById(R.id.broadcastText);
     connectButton = (Button) findViewById(R.id.ConnectButton);
     broadcastText.addTextChangedListener(new TextWatcher(){
 
 		@Override
 		public void onTextChanged(CharSequence s, int start, int before, int count) {
 			// TODO Auto-generated method stub
-			if (count == 1){ //typing in the middle
-				Log.d("KEY_EVENT", s.toString());//.substring(start, start+count-1));	
+			if (count < before){
+				Log.d("KEY_EVENT", "typed a backspace at " + Integer.toString(start+before));
 			}
-			else{ //typing at end
-				Log.d("KEY_EVENT", s.toString());//.substring(before, count-1));	
+			else if (count > before){
+				if (start == 0 && before == 0 && count == 1){ //beginning
+					Log.d("KEY_EVENT", "typed: " + s.toString().substring(0,1) + " at beginning");	
+				}
+				else if (start != 0 && count == 1){ //middle
+					Log.d("KEY_EVENT", "typed: " + s.toString().substring(start, start+count) + " at " + Integer.toString(start));
+				}
+				else{
+					Log.d("KEY_EVENT", "typed: " + s.toString().substring(before, count) + " at " + Integer.toString(before+start));
+				}
 			}
+			else {
+				Log.d("KEY_EVENT", "else: " + s.toString());
+			}
+			
 			Log.d("KEY_EVENT", "start: " + start + " before: " + before + " count: " + count);
+			Log.d("KEY_EVENT", "++++++++++++++++++++");
 		}
 
 		@Override
