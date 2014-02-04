@@ -21,7 +21,6 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 import edu.umich.icedDynamite.WeWrite.R;
 import edu.umich.imlc.android.common.Utils;
@@ -51,6 +50,7 @@ public class MainActivity extends Activity implements
 
   private CollabrifyClient myClient;
   private CustomEditText broadcastText;
+  private TextAction textAction;
   private Button connectButton;
   private Button joinButton;
   private Button leaveButton;
@@ -71,7 +71,7 @@ public class MainActivity extends Activity implements
   private CollabrifyLeaveSessionListener leaveSessionListener = this;
 
   private TextWatcher broadcastTextWatcher;
-  private boolean recvToggle = false;
+  //private boolean recvToggle = false;
   
   // Undo and Redo action stacks
   Stack<TextAction> undoStack = new Stack<TextAction>();
@@ -237,6 +237,8 @@ public class MainActivity extends Activity implements
 		public void onTextChanged(CharSequence s, int start, int before, int count) {
 			// TODO Auto-generated method stub
 			if (count < before){
+				//textAction.location = start+before;
+				//Log.d("KEY_EVENT", Character.toString(s.charAt(start+before)));
 				Log.d("KEY_EVENT", "typed a backspace at " + Integer.toString(start+before));
 			}
 			else if (count > before){
@@ -255,7 +257,7 @@ public class MainActivity extends Activity implements
 			}
 			
 			//Log.d("KEY_EVENT", "start: " + start + " before: " + before + " count: " + count);
-			//Log.d("KEY_EVENT", "++++++++++++++++++++");
+			Log.d("KEY_EVENT", "++++++++++++++++++++");
 		}
 
 		@Override
@@ -311,10 +313,10 @@ public class MainActivity extends Activity implements
       try
       {
     	// Create and serialize textAction with location and text
-//    	TextAction broadcastInfo = new TextAction();
-//    	broadcastInfo.location = broadcastText.getSelectionEnd();
-//    	
-//    	myClient.broadcast(serialize(broadcastInfo), "lol", broadcastListener);
+    	//TextAction broadcastInfo = new TextAction();
+    	//broadcastInfo.location = broadcastText.getSelectionEnd();
+    	
+    	//myClient.broadcast(serialize(broadcastInfo), "lol", broadcastListener);
 
         myClient.broadcast(broadcastText.getText().toString().getBytes(),
             "lol", broadcastListener);
@@ -494,8 +496,5 @@ public class MainActivity extends Activity implements
   {
     // unused since we don't provide an interface to prevent further joins
   }
-	
-  private static String toUnicode(char ch) {
-	  return String.format("\\u%04x", (int) ch);
-  }
+
 }
