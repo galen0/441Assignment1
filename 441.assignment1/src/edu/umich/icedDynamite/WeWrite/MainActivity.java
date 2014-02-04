@@ -1,4 +1,4 @@
-package edu.umich.imlc.collabrify.collabrify_dummy_app;
+package edu.umich.icedDynamite.WeWrite;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -27,6 +27,7 @@ import edu.umich.imlc.collabrify.client.CollabrifyParticipant;
 import edu.umich.imlc.collabrify.client.CollabrifySession;
 import edu.umich.imlc.collabrify.client.exceptions.CollabrifyException;
 import edu.umich.imlc.collabrify.client.exceptions.CollabrifyUnrecoverableException;
+import edu.umich.imlc.collabrify.collabrify_dummy_app.R;
 
 public class MainActivity extends Activity implements
     CollabrifySessionListener, CollabrifyListSessionsListener,
