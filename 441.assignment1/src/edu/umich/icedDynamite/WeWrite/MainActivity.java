@@ -50,7 +50,7 @@ public class MainActivity extends Activity implements
   private static final String ACCESS_TOKEN = "338692774BBE";
 
   private CollabrifyClient myClient;
-  private EditText broadcastText;
+  private CustomEditText broadcastText;
   private Button connectButton;
   private Button joinButton;
   private Button leaveButton;
@@ -70,6 +70,9 @@ public class MainActivity extends Activity implements
   private CollabrifyJoinSessionListener joinSessionListener = this;
   private CollabrifyLeaveSessionListener leaveSessionListener = this;
 
+  private TextWatcher broadcastTextWatcher;
+  private boolean recvToggle = false;
+  
   // Undo and Redo action stacks
   Stack<TextAction> undoStack = new Stack<TextAction>();
   Stack<TextAction> redoStack = new Stack<TextAction>();
@@ -101,12 +104,15 @@ public class MainActivity extends Activity implements
       public void run()
       {
     	try {
-    	  //TextAction recvText = (TextAction) deserialize(data);
-    	  //broadcastText.getText().replace(recvText.location, 1, recvText.text);
+//    	  TextAction recvText = (TextAction) deserialize(data);
+//    	  broadcastText.getText().replace(recvText.location, 1, recvText.text);
     	  
 	      Utils.printMethodName(TAG);
 	      String message = new String(data);
+	      broadcastText.removeTextChangedListener(broadcastTextWatcher);
 	      broadcastText.setText(message);
+	      broadcastText.setSelection(broadcastText.getText().length());
+	      broadcastText.addTextChangedListener(broadcastTextWatcher);
 		} 
         catch (Exception e) {
 		  // TODO Auto-generated catch block
@@ -215,8 +221,9 @@ public class MainActivity extends Activity implements
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
 
-    broadcastText = (EditText) findViewById(R.id.broadcastText);
+    broadcastText = (CustomEditText) findViewById(R.id.broadcastText);
     connectButton = (Button) findViewById(R.id.ConnectButton);
+
     joinButton = (Button) findViewById(R.id.getSessionButton);
     leaveButton = (Button) findViewById(R.id.LeaveSessionButton);
     leaveButton.setEnabled(false);
@@ -224,35 +231,47 @@ public class MainActivity extends Activity implements
     undoButton.setEnabled(false);
     redoButton = (Button) findViewById(R.id.UndoButton);
     redoButton.setEnabled(false);
-    broadcastText.addTextChangedListener(new TextWatcher(){
-    	
+   
+    broadcastTextWatcher = new TextWatcher(){
 		@Override
 		public void onTextChanged(CharSequence s, int start, int before, int count) {
 			// TODO Auto-generated method stub
-			if (count == 1){ //typing in the middle
-				Log.d("KEY_EVENT", s.toString());//.substring(start, start+count-1));	
+			if (count < before){
+				Log.d("KEY_EVENT", "typed a backspace at " + Integer.toString(start+before));
 			}
-			else{ //typing at end
-				Log.d("KEY_EVENT", s.toString());//.substring(before, count-1));	
+			else if (count > before){
+				if (start == 0 && before == 0 && count == 1){ //beginning
+					Log.d("KEY_EVENT", "typed: " + s.toString().substring(0,1) + " at beginning");	
+				}
+				else if (start != 0 && count == 1){ //middle
+					Log.d("KEY_EVENT", "typed: " + s.toString().substring(start, start+count) + " at " + Integer.toString(start));
+				}
+				else{
+					Log.d("KEY_EVENT", "typed: " + s.toString().substring(before, count) + " at " + Integer.toString(before+start));
+				}
 			}
+			else {
+				Log.d("KEY_EVENT", "else: " + s.toString());
+			}
+			
 			Log.d("KEY_EVENT", "start: " + start + " before: " + before + " count: " + count);
+			Log.d("KEY_EVENT", "++++++++++++++++++++");
 		}
 
 		@Override
 		public void afterTextChanged(Editable s) {
-			// TODO Auto-generated method stub
-			
+			Log.d("BROADCAST", "WTFFF");
+			doBroadcast(getWindow().getDecorView().findViewById(android.R.id.content));
 		}
 
 		@Override
 		public void beforeTextChanged(CharSequence s, int start, int count,
 				int after) {
 			// TODO Auto-generated method stub
-			
 		}
     	
-    	
-    });
+    };
+    broadcastText.addTextChangedListener(broadcastTextWatcher);
 
     // Instantiate client object
     try
@@ -292,9 +311,11 @@ public class MainActivity extends Activity implements
       try
       {
     	// Create and serialize textAction with location and text
-    	TextAction broadcastChar = new TextAction();
-    	broadcastChar.location = broadcastText.getSelectionEnd();
-    	
+//    	TextAction broadcastInfo = new TextAction();
+//    	broadcastInfo.location = broadcastText.getSelectionEnd();
+//    	
+//    	myClient.broadcast(serialize(broadcastInfo), "lol", broadcastListener);
+
         myClient.broadcast(broadcastText.getText().toString().getBytes(),
             "lol", broadcastListener);
         //broadcastText.getText().clear();
@@ -302,6 +323,10 @@ public class MainActivity extends Activity implements
       catch( CollabrifyException e )
       {
         onError(e);
+      }
+      catch( Exception e )
+      {
+		  e.printStackTrace();
       }
     }
   }
