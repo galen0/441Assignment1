@@ -97,8 +97,8 @@ public class MainActivity extends Activity implements
       public void run()
       {
     	try {
-    	  TextAction recvText = (TextAction) deserialize(data);
-    	  broadcastText.getText().replace(recvText.location, 1, recvText.text);
+    	  //TextAction recvText = (TextAction) deserialize(data);
+    	  //broadcastText.getText().replace(recvText.location, 1, recvText.text);
     	  
 	      Utils.printMethodName(TAG);
 	      String message = new String(data);
@@ -142,6 +142,7 @@ public class MainActivity extends Activity implements
       {
         showToast("Session created: " + sessionName);
         connectButton.setText(sessionName);
+        broadcastText.setText("");
       }
     });
   }
@@ -184,6 +185,7 @@ public class MainActivity extends Activity implements
       {
         showToast("Left session: " + sessionName);
         connectButton.setText("Create Session");
+        broadcastText.setText("");
       }
     });
   }
@@ -197,7 +199,7 @@ public class MainActivity extends Activity implements
     broadcastText = (EditText) findViewById(R.id.broadcastText);
     connectButton = (Button) findViewById(R.id.ConnectButton);
     broadcastText.addTextChangedListener(new TextWatcher(){
-
+    	
 		@Override
 		public void onTextChanged(CharSequence s, int start, int before, int count) {
 			// TODO Auto-generated method stub
@@ -354,13 +356,16 @@ public class MainActivity extends Activity implements
     List<String> sessionNames = new ArrayList<String>();
     for( CollabrifySession s : sessionList )
     {
-      sessionNames.add(s.name());
+    	if(s.name().startsWith("Iced Dynamite("))
+    		sessionNames.add(s.name());
     }
-
+    if(sessionNames.size() == 0)
+    	return;
+    
     // create a dialog to show the list of session names to the user
     final AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
     builder.setTitle("Choose Session");
-    builder.setItems(sessionNames.toArray(new String[sessionList.size()]),
+    builder.setItems(sessionNames.toArray(new String[sessionNames.size()]),
         new DialogInterface.OnClickListener()
         {
           @Override
