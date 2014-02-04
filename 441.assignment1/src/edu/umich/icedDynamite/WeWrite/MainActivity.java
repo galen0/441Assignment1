@@ -52,6 +52,10 @@ public class MainActivity extends Activity implements
   private CollabrifyClient myClient;
   private EditText broadcastText;
   private Button connectButton;
+  private Button joinButton;
+  private Button leaveButton;
+  private Button undoButton;
+  private Button redoButton;
   private ArrayList<String> tags = new ArrayList<String>();
   private long sessionId;
   private String sessionName;
@@ -142,6 +146,11 @@ public class MainActivity extends Activity implements
       {
         showToast("Session created: " + sessionName);
         connectButton.setText(sessionName);
+        connectButton.setEnabled(false);
+        joinButton.setEnabled(false);
+        leaveButton.setEnabled(true);
+        undoButton.setEnabled(true);
+        redoButton.setEnabled(true);
         broadcastText.setText("");
       }
     });
@@ -160,6 +169,11 @@ public class MainActivity extends Activity implements
       {
         showToast("Session Joined: " + sessionName);
         connectButton.setText(sessionName);
+        connectButton.setEnabled(false);
+        joinButton.setEnabled(false);
+        leaveButton.setEnabled(true);
+        undoButton.setEnabled(true);
+        redoButton.setEnabled(true);
       }
     });
   }
@@ -185,6 +199,11 @@ public class MainActivity extends Activity implements
       {
         showToast("Left session: " + sessionName);
         connectButton.setText("Create Session");
+        connectButton.setEnabled(true);
+        joinButton.setEnabled(true);
+        leaveButton.setEnabled(false);
+        undoButton.setEnabled(false);
+        redoButton.setEnabled(false);
         broadcastText.setText("");
       }
     });
@@ -198,6 +217,13 @@ public class MainActivity extends Activity implements
 
     broadcastText = (EditText) findViewById(R.id.broadcastText);
     connectButton = (Button) findViewById(R.id.ConnectButton);
+    joinButton = (Button) findViewById(R.id.getSessionButton);
+    leaveButton = (Button) findViewById(R.id.LeaveSessionButton);
+    leaveButton.setEnabled(false);
+    undoButton = (Button) findViewById(R.id.RedoButton);
+    undoButton.setEnabled(false);
+    redoButton = (Button) findViewById(R.id.UndoButton);
+    redoButton.setEnabled(false);
     broadcastText.addTextChangedListener(new TextWatcher(){
     	
 		@Override
@@ -356,16 +382,15 @@ public class MainActivity extends Activity implements
     List<String> sessionNames = new ArrayList<String>();
     for( CollabrifySession s : sessionList )
     {
-    	if(s.name().startsWith("Iced Dynamite("))
-    		sessionNames.add(s.name());
+      //TODO: add filter
+      sessionNames.add(s.name());
     }
-    if(sessionNames.size() == 0)
-    	return;
-    
+
     // create a dialog to show the list of session names to the user
-    final AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+    final AlertDialog.Builder builder = new AlertDialog.Builder(
+        MainActivity.this);
     builder.setTitle("Choose Session");
-    builder.setItems(sessionNames.toArray(new String[sessionNames.size()]),
+    builder.setItems(sessionNames.toArray(new String[sessionList.size()]),
         new DialogInterface.OnClickListener()
         {
           @Override

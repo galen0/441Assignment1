@@ -7,7 +7,7 @@
         android:id="@+id/broadcastText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/redo"
+        android:layout_above="@+id/RedoButton"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
@@ -36,7 +36,7 @@
         android:text="Join Session" />
 
     <Button
-        android:id="@+id/redo"
+        android:id="@+id/RedoButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/LeaveSessionButton"
@@ -45,7 +45,7 @@
         android:text="Redo" />
 
     <Button
-        android:id="@+id/undo"
+        android:id="@+id/UndoButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/getSessionButton"
@@ -57,7 +57,7 @@
         android:id="@+id/ConnectButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/broadcastText"
+        android:layout_above="@+id/LeaveSessionButton"
         android:layout_centerHorizontal="true"
         android:onClick="doCreateSession"
         android:text="Create Session" />
