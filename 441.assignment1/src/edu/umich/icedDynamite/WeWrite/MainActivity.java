@@ -46,7 +46,7 @@ public class MainActivity extends Activity implements
   private static String TAG = "dummy";
 
   private static final String GMAIL = "iceddynamite@umich.edu";
-  private static final String DISPLAY_NAME = "Iced Dynamite";
+  private static final String DISPLAY_NAME = "A user";
   private static final String ACCOUNT_GMAIL = "441winter2014@umich.edu";
   private static final String ACCESS_TOKEN = "338692774BBE";
 
@@ -249,7 +249,7 @@ public class MainActivity extends Activity implements
 
     tags.add("sample");
   }
-
+  
   public void undo(View v)
   {
 	  //TODO: Implement undo
@@ -424,13 +424,13 @@ public class MainActivity extends Activity implements
   @Override
   public void onParticipantJoined(CollabrifyParticipant p)
   {
-    showToast(p.getDisplayName() + " joined");
+    showToast(p.getDisplayName() + " has joined");
   }
 
   @Override
   public void onParticipantLeft(CollabrifyParticipant p)
   {
-    showToast(p.getDisplayName() + " left");
+    showToast(p.getDisplayName() + " has left");
   }
 
   @Override
