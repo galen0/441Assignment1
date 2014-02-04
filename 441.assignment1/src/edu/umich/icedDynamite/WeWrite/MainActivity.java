@@ -95,7 +95,6 @@ public class MainActivity extends Activity implements
   @Override
   public void onSessionCreated(final CollabrifySession session)
   {
-	setTitle("Team Iced Dynamite Collabrify Editor");
     sessionId = session.id();
     sessionName = session.name();
     runOnUiThread(new Runnable()
@@ -279,8 +278,7 @@ public class MainActivity extends Activity implements
     }
 
     // create a dialog to show the list of session names to the user
-    final AlertDialog.Builder builder = new AlertDialog.Builder(
-        MainActivity.this);
+    final AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
     builder.setTitle("Choose Session");
     builder.setItems(sessionNames.toArray(new String[sessionList.size()]),
         new DialogInterface.OnClickListener()
