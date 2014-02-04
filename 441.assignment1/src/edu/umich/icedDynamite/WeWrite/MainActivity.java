@@ -284,7 +284,7 @@ public class MainActivity extends Activity implements
     try
     {
       Random rand = new Random();
-      sessionName = "Test " + rand.nextInt(Integer.MAX_VALUE);
+      sessionName = "Iced Dynamite(" + rand.nextInt(Integer.MAX_VALUE) + ")";
       myClient.createSession(sessionName, tags, password, 0,
           createSessionListener, sessionListener);
     }
