@@ -5,7 +5,7 @@
  * should not be modified by hand.
  */
 
-package edu.umich.imlc.collabrify.collabrify_dummy_app;
+package edu.umich.icedDynamite.WeWrite;
 
 public final class R {
     public static final class attr {

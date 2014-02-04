@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+import edu.umich.icedDynamite.WeWrite.R;
 import edu.umich.imlc.android.common.Utils;
 import edu.umich.imlc.collabrify.client.CollabrifyClient;
 import edu.umich.imlc.collabrify.client.CollabrifyListener.CollabrifyBroadcastListener;
@@ -27,7 +28,6 @@ import edu.umich.imlc.collabrify.client.CollabrifyParticipant;
 import edu.umich.imlc.collabrify.client.CollabrifySession;
 import edu.umich.imlc.collabrify.client.exceptions.CollabrifyException;
 import edu.umich.imlc.collabrify.client.exceptions.CollabrifyUnrecoverableException;
-import edu.umich.imlc.collabrify.collabrify_dummy_app.R;
 
 public class MainActivity extends Activity implements
     CollabrifySessionListener, CollabrifyListSessionsListener,
