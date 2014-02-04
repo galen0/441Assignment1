@@ -5,7 +5,7 @@
  * should not be modified by hand.
  */
 
-package edu.umich.imlc.collabrify.collabrify_dummy_app;
+package edu.umich.icedDynamite.WeWrite;
 
 public final class R {
     public static final class attr {
@@ -32,9 +32,8 @@ public final class R {
     }
     public static final class string {
         public static final int app_name=0x7f040000;
-        public static final int hello_world=0x7f040001;
-        public static final int menu_settings=0x7f040002;
-        public static final int title_activity_main=0x7f040003;
+        public static final int menu_settings=0x7f040001;
+        public static final int title_activity_main=0x7f040002;
     }
     public static final class style {
         public static final int AppTheme=0x7f050000;
