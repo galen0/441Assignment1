@@ -185,6 +185,16 @@ public class MainActivity extends Activity implements
     tags.add("sample");
   }
 
+  public void undo(View v)
+  {
+	  //TODO: Implement undo
+  }
+  
+  public void redo(View v)
+  {
+	  //TODO: Implement redo
+  }
+  
   public void doBroadcast(View v)
   {
     if( broadcastText.getText().toString().isEmpty() )
