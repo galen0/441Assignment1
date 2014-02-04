@@ -141,7 +141,7 @@ public class MainActivity extends Activity implements
       @Override
       public void run()
       {
-        showToast("Session created, id: " + session.id());
+        showToast("Session created: " + sessionName);
         connectButton.setText(sessionName);
       }
     });
@@ -184,7 +184,7 @@ public class MainActivity extends Activity implements
       public void run()
       {
         showToast("Left session");
-        connectButton.setText("CreateSession");
+        connectButton.setText("Create Session");
       }
     });
   }
