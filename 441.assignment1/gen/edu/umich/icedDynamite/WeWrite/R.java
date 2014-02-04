@@ -15,13 +15,13 @@ public final class R {
         public static final int ic_launcher=0x7f020001;
     }
     public static final class id {
-        public static final int ConnectButton=0x7f080004;
+        public static final int ConnectButton=0x7f080005;
         public static final int LeaveSessionButton=0x7f080002;
         public static final int broadcastText=0x7f080000;
         public static final int getSessionButton=0x7f080003;
         public static final int menu_settings=0x7f080006;
         public static final int redo=0x7f080001;
-        public static final int undo=0x7f080005;
+        public static final int undo=0x7f080004;
     }
     public static final class integer {
         public static final int One=0x7f040000;
