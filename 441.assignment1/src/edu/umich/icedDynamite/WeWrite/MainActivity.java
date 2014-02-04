@@ -37,7 +37,7 @@ public class MainActivity extends Activity implements
   private static String TAG = "dummy";
 
   private static final String GMAIL = "iceddynamite@umich.edu";
-  private static final String DISPLAY_NAME = "Iced Dynamite";
+  private static final String DISPLAY_NAME = "New User";
   private static final String ACCOUNT_GMAIL = "441winter2014@umich.edu";
   private static final String ACCESS_TOKEN = "338692774BBE";
 
@@ -178,7 +178,7 @@ public class MainActivity extends Activity implements
 
     tags.add("sample");
   }
-
+  
   public void undo(View v)
   {
 	  //TODO: Implement undo

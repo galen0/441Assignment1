@@ -21,20 +21,10 @@
         android:id="@+id/LeaveSessionButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/ConnectButton"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:onClick="doLeaveSession"
         android:text="Leave Session" />
-
-    <Button
-        android:id="@+id/ConnectButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/getSessionButton"
-        android:layout_alignParentRight="true"
-        android:onClick="doCreateSession"
-        android:text="Create Session" />
 
     <Button
         android:id="@+id/getSessionButton"
@@ -45,21 +35,11 @@
         android:onClick="doJoinSession"
         android:text="Join Session" />
 
-    <EditText
-        android:id="@+id/editText1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignRight="@+id/getSessionButton"
-        android:layout_alignTop="@+id/ConnectButton"
-        android:ems="10" />
-
     <Button
         android:id="@+id/redo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/ConnectButton"
-        android:layout_alignLeft="@+id/ConnectButton"
+        android:layout_above="@+id/LeaveSessionButton"
         android:layout_alignParentRight="true"
         android:onClick="redo"
         android:text="Redo" />
@@ -68,11 +48,18 @@
         android:id="@+id/undo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/redo"
-        android:layout_alignBottom="@+id/redo"
+        android:layout_above="@+id/getSessionButton"
         android:layout_alignParentLeft="true"
-        android:layout_alignRight="@+id/editText1"
         android:onClick="undo"
         android:text="Undo" />
+
+    <Button
+        android:id="@+id/ConnectButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/broadcastText"
+        android:layout_centerHorizontal="true"
+        android:onClick="doCreateSession"
+        android:text="Create Session" />
 
 </RelativeLayout>
