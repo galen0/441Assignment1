@@ -14,7 +14,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 import edu.umich.imlc.android.common.Utils;
 import edu.umich.imlc.collabrify.client.CollabrifyClient;
@@ -42,7 +41,6 @@ public class MainActivity extends Activity implements
   private static final String ACCESS_TOKEN = "2468";
 
   private CollabrifyClient myClient;
-  private TextView broadcastedText;
   private EditText broadcastText;
   private Button connectButton;
   private ArrayList<String> tags = new ArrayList<String>();
@@ -71,7 +69,7 @@ public class MainActivity extends Activity implements
       {
         Utils.printMethodName(TAG);
         String message = new String(data);
-        broadcastedText.setText(message);
+        broadcastText.setText(message);
       }
     });
   }
@@ -159,8 +157,7 @@ public class MainActivity extends Activity implements
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
 
-    broadcastText = (EditText) findViewById(R.id.BroadcastText);
-    broadcastedText = (TextView) findViewById(R.id.BroadcastedText);
+    broadcastText = (EditText) findViewById(R.id.broadcastText);
     connectButton = (Button) findViewById(R.id.ConnectButton);
 
     // Instantiate client object
