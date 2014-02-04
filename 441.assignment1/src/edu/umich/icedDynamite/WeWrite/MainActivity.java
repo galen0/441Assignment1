@@ -203,10 +203,10 @@ public class MainActivity extends Activity implements
 		public void onTextChanged(CharSequence s, int start, int before, int count) {
 			// TODO Auto-generated method stub
 			if (count == 1){ //typing in the middle
-				Log.d("KEY_EVENT", s.toString().substring(start, start+count));	
+				Log.d("KEY_EVENT", s.toString());//.substring(start, start+count-1));	
 			}
 			else{ //typing at end
-				Log.d("KEY_EVENT", s.toString().substring(before, count));	
+				Log.d("KEY_EVENT", s.toString());//.substring(before, count-1));	
 			}
 			Log.d("KEY_EVENT", "start: " + start + " before: " + before + " count: " + count);
 		}
