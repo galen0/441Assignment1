@@ -10,6 +10,8 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -159,6 +161,35 @@ public class MainActivity extends Activity implements
 
     broadcastText = (EditText) findViewById(R.id.broadcastText);
     connectButton = (Button) findViewById(R.id.ConnectButton);
+    broadcastText.addTextChangedListener(new TextWatcher(){
+
+		@Override
+		public void onTextChanged(CharSequence s, int start, int before, int count) {
+			// TODO Auto-generated method stub
+			if (count == 1){ //typing in the middle
+				Log.d("KEY_EVENT", s.toString().substring(start, start+count));	
+			}
+			else{ //typing at end
+				Log.d("KEY_EVENT", s.toString().substring(before, count));	
+			}
+			Log.d("KEY_EVENT", "start: " + start + " before: " + before + " count: " + count);
+		}
+
+		@Override
+		public void afterTextChanged(Editable s) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void beforeTextChanged(CharSequence s, int start, int count,
+				int after) {
+			// TODO Auto-generated method stub
+			
+		}
+    	
+    	
+    });
 
     // Instantiate client object
     try
@@ -358,5 +389,9 @@ public class MainActivity extends Activity implements
   public void onFurtherJoinsPrevented()
   {
     // unused since we don't provide an interface to prevent further joins
+  }
+	
+  private static String toUnicode(char ch) {
+	  return String.format("\\u%04x", (int) ch);
   }
 }
