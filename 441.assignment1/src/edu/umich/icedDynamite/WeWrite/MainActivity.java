@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.Stack;
 import java.util.concurrent.ExecutionException;
 
 import android.app.Activity;
@@ -28,6 +29,7 @@ import edu.umich.imlc.collabrify.client.CollabrifyParticipant;
 import edu.umich.imlc.collabrify.client.CollabrifySession;
 import edu.umich.imlc.collabrify.client.exceptions.CollabrifyException;
 import edu.umich.imlc.collabrify.client.exceptions.CollabrifyUnrecoverableException;
+import edu.umich.icedDynamite.WeWrite.TextAction;
 
 public class MainActivity extends Activity implements
     CollabrifySessionListener, CollabrifyListSessionsListener,
@@ -57,6 +59,10 @@ public class MainActivity extends Activity implements
   private CollabrifyJoinSessionListener joinSessionListener = this;
   private CollabrifyLeaveSessionListener leaveSessionListener = this;
 
+  // Undo and Redo action stacks
+  Stack<TextAction> undoStack = new Stack<TextAction>();
+  Stack<TextAction> redoStack = new Stack<TextAction>();
+  
   @Override
   public void onReceiveEvent(long orderId, int submissionRegistrationId,
       String eventType, final byte[] data, long elapsed)
@@ -189,7 +195,7 @@ public class MainActivity extends Activity implements
       {
         myClient.broadcast(broadcastText.getText().toString().getBytes(),
             "lol", broadcastListener);
-        broadcastText.getText().clear();
+        //broadcastText.getText().clear();
       }
       catch( CollabrifyException e )
       {
