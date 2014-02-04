@@ -227,8 +227,8 @@ public class MainActivity extends Activity implements
 				Log.d("KEY_EVENT", "else: " + s.toString());
 			}
 			
-			Log.d("KEY_EVENT", "start: " + start + " before: " + before + " count: " + count);
-			Log.d("KEY_EVENT", "++++++++++++++++++++");
+			//Log.d("KEY_EVENT", "start: " + start + " before: " + before + " count: " + count);
+			//Log.d("KEY_EVENT", "++++++++++++++++++++");
 		}
 
 		@Override
