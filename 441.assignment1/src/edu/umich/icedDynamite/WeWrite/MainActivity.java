@@ -157,7 +157,7 @@ public class MainActivity extends Activity implements
       @Override
       public void run()
       {
-        showToast("Session Joined");
+        showToast("Session Joined: " + sessionName);
         connectButton.setText(sessionName);
       }
     });
@@ -168,7 +168,7 @@ public class MainActivity extends Activity implements
   {
     if( sessionList.isEmpty() )
     {
-      showToast("No session available");
+      showToast("No sessions available");
       return;
     }
     displaySessionList(sessionList);
@@ -182,7 +182,7 @@ public class MainActivity extends Activity implements
       @Override
       public void run()
       {
-        showToast("Left session");
+        showToast("Left session: " + sessionName);
         connectButton.setText("Create Session");
       }
     });
