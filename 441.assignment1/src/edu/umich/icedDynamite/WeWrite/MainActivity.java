@@ -36,10 +36,10 @@ public class MainActivity extends Activity implements
 {
   private static String TAG = "dummy";
 
-  private static final String GMAIL = "user email";
-  private static final String DISPLAY_NAME = "user display name";
-  private static final String ACCOUNT_GMAIL = "imlcteam@gmail.com";
-  private static final String ACCESS_TOKEN = "2468";
+  private static final String GMAIL = "iceddynamite@umich.edu";
+  private static final String DISPLAY_NAME = "Iced Dynamite";
+  private static final String ACCOUNT_GMAIL = "441winter2014@umich.edu";
+  private static final String ACCESS_TOKEN = "338692774BBE";
 
   private CollabrifyClient myClient;
   private EditText broadcastText;
@@ -95,7 +95,7 @@ public class MainActivity extends Activity implements
   @Override
   public void onSessionCreated(final CollabrifySession session)
   {
-
+	setTitle("Team Iced Dynamite Collabrify Editor");
     sessionId = session.id();
     sessionName = session.name();
     runOnUiThread(new Runnable()
