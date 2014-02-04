@@ -66,6 +66,9 @@ public class MainActivity extends Activity implements
   private CollabrifyJoinSessionListener joinSessionListener = this;
   private CollabrifyLeaveSessionListener leaveSessionListener = this;
 
+  private TextWatcher broadcastTextWatcher;
+  private boolean recvToggle = false;
+  
   // Undo and Redo action stacks
   Stack<TextAction> undoStack = new Stack<TextAction>();
   Stack<TextAction> redoStack = new Stack<TextAction>();
@@ -97,12 +100,15 @@ public class MainActivity extends Activity implements
       public void run()
       {
     	try {
-    	  TextAction recvText = (TextAction) deserialize(data);
-    	  broadcastText.getText().replace(recvText.location, 1, recvText.text);
+//    	  TextAction recvText = (TextAction) deserialize(data);
+//    	  broadcastText.getText().replace(recvText.location, 1, recvText.text);
     	  
 	      Utils.printMethodName(TAG);
 	      String message = new String(data);
+	      broadcastText.removeTextChangedListener(broadcastTextWatcher);
 	      broadcastText.setText(message);
+	      broadcastText.setSelection(broadcastText.getText().length());
+	      broadcastText.addTextChangedListener(broadcastTextWatcher);
 		} 
         catch (Exception e) {
 		  // TODO Auto-generated catch block
@@ -140,8 +146,9 @@ public class MainActivity extends Activity implements
       @Override
       public void run()
       {
-        showToast("Session created, id: " + session.id());
+        showToast("Session created: " + sessionName);
         connectButton.setText(sessionName);
+        broadcastText.setText("");
       }
     });
   }
@@ -157,7 +164,7 @@ public class MainActivity extends Activity implements
       @Override
       public void run()
       {
-        showToast("Session Joined");
+        showToast("Session Joined: " + sessionName);
         connectButton.setText(sessionName);
       }
     });
@@ -168,7 +175,7 @@ public class MainActivity extends Activity implements
   {
     if( sessionList.isEmpty() )
     {
-      showToast("No session available");
+      showToast("No sessions available");
       return;
     }
     displaySessionList(sessionList);
@@ -182,8 +189,9 @@ public class MainActivity extends Activity implements
       @Override
       public void run()
       {
-        showToast("Left session");
-        connectButton.setText("CreateSession");
+        showToast("Left session: " + sessionName);
+        connectButton.setText("Create Session");
+        broadcastText.setText("");
       }
     });
   }
@@ -196,8 +204,8 @@ public class MainActivity extends Activity implements
 
     broadcastText = (CustomEditText) findViewById(R.id.broadcastText);
     connectButton = (Button) findViewById(R.id.ConnectButton);
-    broadcastText.addTextChangedListener(new TextWatcher(){
-
+    
+    broadcastTextWatcher = new TextWatcher(){
 		@Override
 		public void onTextChanged(CharSequence s, int start, int before, int count) {
 			// TODO Auto-generated method stub
@@ -225,19 +233,18 @@ public class MainActivity extends Activity implements
 
 		@Override
 		public void afterTextChanged(Editable s) {
-			// TODO Auto-generated method stub
-			
+			Log.d("BROADCAST", "WTFFF");
+			doBroadcast(getWindow().getDecorView().findViewById(android.R.id.content));
 		}
 
 		@Override
 		public void beforeTextChanged(CharSequence s, int start, int count,
 				int after) {
 			// TODO Auto-generated method stub
-			
 		}
     	
-    	
-    });
+    };
+    broadcastText.addTextChangedListener(broadcastTextWatcher);
 
     // Instantiate client object
     try
@@ -277,9 +284,11 @@ public class MainActivity extends Activity implements
       try
       {
     	// Create and serialize textAction with location and text
-    	TextAction broadcastChar = new TextAction();
-    	broadcastChar.location = broadcastText.getSelectionEnd();
-    	
+//    	TextAction broadcastInfo = new TextAction();
+//    	broadcastInfo.location = broadcastText.getSelectionEnd();
+//    	
+//    	myClient.broadcast(serialize(broadcastInfo), "lol", broadcastListener);
+
         myClient.broadcast(broadcastText.getText().toString().getBytes(),
             "lol", broadcastListener);
         //broadcastText.getText().clear();
@@ -287,6 +296,10 @@ public class MainActivity extends Activity implements
       catch( CollabrifyException e )
       {
         onError(e);
+      }
+      catch( Exception e )
+      {
+		  e.printStackTrace();
       }
     }
   }
@@ -367,13 +380,16 @@ public class MainActivity extends Activity implements
     List<String> sessionNames = new ArrayList<String>();
     for( CollabrifySession s : sessionList )
     {
-      sessionNames.add(s.name());
+    	if(s.name().startsWith("Iced Dynamite("))
+    		sessionNames.add(s.name());
     }
-
+    if(sessionNames.size() == 0)
+    	return;
+    
     // create a dialog to show the list of session names to the user
     final AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
     builder.setTitle("Choose Session");
-    builder.setItems(sessionNames.toArray(new String[sessionList.size()]),
+    builder.setItems(sessionNames.toArray(new String[sessionNames.size()]),
         new DialogInterface.OnClickListener()
         {
           @Override
