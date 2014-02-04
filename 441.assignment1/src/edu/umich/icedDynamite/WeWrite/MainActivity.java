@@ -197,7 +197,6 @@ public class MainActivity extends Activity implements
 
     broadcastText = (EditText) findViewById(R.id.broadcastText);
     connectButton = (Button) findViewById(R.id.ConnectButton);
-<<<<<<< HEAD
     broadcastText.addTextChangedListener(new TextWatcher(){
 
 		@Override
@@ -228,9 +227,6 @@ public class MainActivity extends Activity implements
     	
     });
 
-=======
-    
->>>>>>> 990eddfeac93cd941c322bdfce5895265a45fe10
     // Instantiate client object
     try
     {
