@@ -148,6 +148,7 @@ public class MainActivity extends Activity implements
       {
         showToast("Session created: " + sessionName);
         connectButton.setText(sessionName);
+        broadcastText.setText("");
       }
     });
   }
@@ -163,7 +164,7 @@ public class MainActivity extends Activity implements
       @Override
       public void run()
       {
-        showToast("Session Joined");
+        showToast("Session Joined: " + sessionName);
         connectButton.setText(sessionName);
       }
     });
@@ -174,7 +175,7 @@ public class MainActivity extends Activity implements
   {
     if( sessionList.isEmpty() )
     {
-      showToast("No session available");
+      showToast("No sessions available");
       return;
     }
     displaySessionList(sessionList);
@@ -188,8 +189,9 @@ public class MainActivity extends Activity implements
       @Override
       public void run()
       {
-        showToast("Left session");
+        showToast("Left session: " + sessionName);
         connectButton.setText("Create Session");
+        broadcastText.setText("");
       }
     });
   }
@@ -365,13 +367,16 @@ public class MainActivity extends Activity implements
     List<String> sessionNames = new ArrayList<String>();
     for( CollabrifySession s : sessionList )
     {
-      sessionNames.add(s.name());
+    	if(s.name().startsWith("Iced Dynamite("))
+    		sessionNames.add(s.name());
     }
-
+    if(sessionNames.size() == 0)
+    	return;
+    
     // create a dialog to show the list of session names to the user
     final AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
     builder.setTitle("Choose Session");
-    builder.setItems(sessionNames.toArray(new String[sessionList.size()]),
+    builder.setItems(sessionNames.toArray(new String[sessionNames.size()]),
         new DialogInterface.OnClickListener()
         {
           @Override
