@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Stack;
 import java.util.concurrent.ExecutionException;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -74,7 +73,7 @@ public class MainActivity extends Activity implements
   private CollabrifyLeaveSessionListener leaveSessionListener = this;
 
   private TextWatcher broadcastTextWatcher;
-  //private boolean recvToggle = false;
+  private boolean undoToggle = false;
   private TextAction broadcastData;
   
   // Undo and Redo action stacks
@@ -92,7 +91,6 @@ public class MainActivity extends Activity implements
   
   // Apply an action
   public void applyAction(TextAction recvText){
-	  //int prevLocation = broadcastText.getSelectionEnd();
 	  Editable text = broadcastText.getText();
 	  
       broadcastText.removeTextChangedListener(broadcastTextWatcher);
@@ -103,7 +101,6 @@ public class MainActivity extends Activity implements
       if(recvText.backspace == false) {
     	  text.insert(recvText.location, recvText.text);
     	  broadcastText.setText(text);
-    	  //broadcastText.getText().replace(recvText.location, recvText.location+1, recvText.text);
       }
       else {
 	      broadcastText.setSelection(recvText.location);
@@ -113,12 +110,7 @@ public class MainActivity extends Activity implements
       
       broadcastText.addTextChangedListener(broadcastTextWatcher);
   }
-  
-  // Revert an action
-  public void revertAction(TextAction action){
-	  //TODO: Implement applyAction
-  }
-  
+ 
   // Convert object to byte array
   public static byte[] serialize(Object obj) throws IOException {
       ByteArrayOutputStream b = new ByteArrayOutputStream();
@@ -283,9 +275,9 @@ public class MainActivity extends Activity implements
     joinButton = (Button) findViewById(R.id.getSessionButton);
     leaveButton = (Button) findViewById(R.id.LeaveSessionButton);
     leaveButton.setEnabled(false);
-    undoButton = (Button) findViewById(R.id.RedoButton);
+    undoButton = (Button) findViewById(R.id.UndoButton);
     undoButton.setEnabled(false);
-    redoButton = (Button) findViewById(R.id.UndoButton);
+    redoButton = (Button) findViewById(R.id.RedoButton);
     redoButton.setEnabled(false);
     displayNameButton = (Button) findViewById(R.id.DisplayNameButton);
     displayNameButton.setText("Change Display Name (" + DISPLAY_NAME + ")");
@@ -341,19 +333,24 @@ public class MainActivity extends Activity implements
 				}
 			}
 			else {
-				//Log.d("KEY_EVENT", "else: " + s.toString());
 				broadcastData.broadcast = false;
 			}
 			
-			//Log.d("KEY_EVENT", "start: " + start + " before: " + before + " count: " + count);
-			//Log.d("KEY_EVENT", "++++++++++++++++++++");
 			if(broadcastData.broadcast) {
 				Log.d("BROADCAST", "BROADCAST");
 				doBroadcast(getWindow().getDecorView().findViewById(android.R.id.content), broadcastData);
 
-				// Add the action to the undo stack
-				undoStack.push(broadcastData);
-				undoButton.setEnabled(true);
+				if(!undoStack.empty())
+					undoButton.setEnabled(true);
+				
+				if(undoToggle == false) {
+					// Add the action to the undo stack
+					Log.d("UNDO", "PUSH UNDO STACK");
+					undoStack.push(broadcastData);
+					undoButton.setEnabled(true);
+				}
+				else
+					undoToggle = false;
 			}
 		}
 
@@ -437,7 +434,11 @@ public class MainActivity extends Activity implements
 		  
 		  //Pop action off undo stack & revert it
 		  TextAction action = undoStack.pop();
-		  applyAction(action);
+		  Log.d("UNDO", Integer.toString(action.location));
+	      broadcastText.setSelection(action.location+1);
+	      undoToggle = true;
+		  broadcastText.dispatchKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DEL));
+	      broadcastText.setSelection(broadcastText.getSelectionEnd());
 		  
 		  //place action on redo stack
 		  redoStack.push(action);
@@ -457,11 +458,23 @@ public class MainActivity extends Activity implements
 	  if(!redoStack.empty()) {
 		  
 		  //Pop action off redo stack & apply it
-		  TextAction action = undoStack.pop();
-		  revertAction(action);
+		  TextAction action = redoStack.pop();
+		  Log.d("REDO", Integer.toString(action.location));
+		  Editable text = broadcastText.getText();
+
+	      if(action.backspace == false) {
+	    	  text.insert(action.location, action.text);
+	    	  broadcastText.setText(text);
+		      broadcastText.setSelection(action.location+1);
+	      }
+	      else {
+		      broadcastText.setSelection(action.location);
+	    	  broadcastText.dispatchKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DEL));
+		      broadcastText.setSelection(action.location-1);
+	      }
 		  
 		  //place action on undo stack
-		  undoStack.push(action);
+		  //undoStack.push(action);
 		  
 		  //Disable redo button if stack is empty
 		  if(redoStack.empty())
@@ -480,15 +493,9 @@ public class MainActivity extends Activity implements
     {
       try
       {
-    	// Create and serialize textAction with location and text
-    	//TextAction broadcastInfo = new TextAction();
-    	//broadcastInfo.location = broadcastText.getSelectionEnd();
     	
     	myClient.broadcast(serialize(broadcastData), "lol", broadcastListener);
 
-//        myClient.broadcast(broadcastText.getText().toString().getBytes(),
-//            "lol", broadcastListener);
-        
         //showToast(broadcastData.text + " broadcasted");
       }
       catch( CollabrifyException e )
