@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Stack;
 import java.util.concurrent.ExecutionException;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -50,7 +51,7 @@ public class MainActivity extends Activity implements
   private static final String ACCESS_TOKEN = "338692774BBE";
 
   private CollabrifyClient myClient;
-  private CustomEditText broadcastText;
+  private EditText broadcastText;
   private Button connectButton;
   private Button joinButton;
   private Button leaveButton;
@@ -189,7 +190,7 @@ public class MainActivity extends Activity implements
     sessionId = session.id();
     sessionName = session.name().substring(14, session.name().length()-1);
     participantId = myClient.currentSessionParticipantId();
-    Log.d("parid", Long.toString(participantId));
+    Log.d("id", Long.toString(participantId));
     runOnUiThread(new Runnable()
     {
 
@@ -201,8 +202,8 @@ public class MainActivity extends Activity implements
         connectButton.setEnabled(false);
         joinButton.setEnabled(false);
         leaveButton.setEnabled(true);
-        broadcastText.setText("");
         displayNameButton.setEnabled(false);
+        broadcastText.setText("");
       }
     });
   }
@@ -275,7 +276,8 @@ public class MainActivity extends Activity implements
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
 
-    broadcastText = (CustomEditText) findViewById(R.id.broadcastText);
+    broadcastText = (EditText) findViewById(R.id.broadcastText);
+    
     connectButton = (Button) findViewById(R.id.ConnectButton);
 
     joinButton = (Button) findViewById(R.id.getSessionButton);
@@ -294,37 +296,57 @@ public class MainActivity extends Activity implements
 		public void onTextChanged(CharSequence s, int start, int before, int count) {
 			broadcastData = new TextAction();
 			broadcastData.senderId = participantId;
-			if (count < before){
-				Log.d("KEY_EVENT", "typed a backspace at " + Integer.toString(start+before));
+			int cursorEnd = broadcastText.getSelectionEnd();
+			if (count < before){ //backspace
+				Log.d("KEY_EVENT", "typed a backspace at " + (cursorEnd+1));
 				broadcastData.text = "0";
 				broadcastData.backspace = true;
-				broadcastData.location = broadcastText.getSelectionEnd();
+				broadcastData.location = cursorEnd + 1;
+				//Log.d("test2", Integer.toString(broadcastText.getSelectionEnd()+1) + " " + Integer.toString(start + before));
 			}
 			else if (count > before){
 				broadcastData.backspace = false;
 				if (start == 0 && before == 0 && count == 1){ //beginning
-					Log.d("KEY_EVENT", "typed: " + s.toString().substring(0,1) + " at beginning");	
-					broadcastData.text = s.toString().substring(0,1);
-					broadcastData.location = broadcastText.getSelectionEnd();
+					Log.d("KEY_EVENT", 
+							"typed: " + 
+							s.toString().substring(cursorEnd - 1, cursorEnd) + 
+							" at " + 
+							(cursorEnd-1)
+					);
+					
+					broadcastData.text = s.toString().substring(cursorEnd - 1, cursorEnd);
+					broadcastData.location = cursorEnd - 1;
 				}
 				else if (start != 0 && count == 1){ //middle
-					Log.d("KEY_EVENT", "typed: " + s.toString().substring(start, start+count) + " at " + Integer.toString(start));
-					broadcastData.text = s.toString().substring(start, start+count);
-					broadcastData.location = broadcastText.getSelectionEnd();
+					Log.d("KEY_EVENT", "typed: " + 
+							s.toString().substring(cursorEnd - 1, cursorEnd) + 
+							" at " + 
+							(cursorEnd-1)
+					);
+					
+					broadcastData.text = s.toString().substring(cursorEnd - 1, cursorEnd);
+					broadcastData.location = cursorEnd - 1;
+
 				}
 				else{
-					Log.d("KEY_EVENT", "typed: " + s.toString().substring(before, count) + " at " + Integer.toString(before+start));
-					broadcastData.text = s.toString().substring(before, count);
-					broadcastData.location = broadcastText.getSelectionEnd();
+					Log.d("KEY_EVENT", 
+							"typed: " + 
+							s.toString().substring(cursorEnd - 1, cursorEnd) + 
+							" at " + 
+							(cursorEnd-1)
+					);
+					
+					broadcastData.text = s.toString().substring(cursorEnd - 1, cursorEnd);
+					broadcastData.location = cursorEnd - 1;
 				}
 			}
 			else {
-				Log.d("KEY_EVENT", "else: " + s.toString());
+				//Log.d("KEY_EVENT", "else: " + s.toString());
 				broadcastData.broadcast = false;
 			}
 			
 			//Log.d("KEY_EVENT", "start: " + start + " before: " + before + " count: " + count);
-			Log.d("KEY_EVENT", "++++++++++++++++++++");
+			//Log.d("KEY_EVENT", "++++++++++++++++++++");
 			if(broadcastData.broadcast) {
 				Log.d("BROADCAST", "BROADCAST");
 				doBroadcast(getWindow().getDecorView().findViewById(android.R.id.content), broadcastData);
@@ -430,7 +452,6 @@ public class MainActivity extends Activity implements
 		  
   }
   
-  //Redoes the last action undone by the user
   public void redo(View v)
   {
 	  if(!redoStack.empty()) {
@@ -468,7 +489,7 @@ public class MainActivity extends Activity implements
 //        myClient.broadcast(broadcastText.getText().toString().getBytes(),
 //            "lol", broadcastListener);
         
-        showToast(broadcastData.text + " broadcasted");
+        //showToast(broadcastData.text + " broadcasted");
       }
       catch( CollabrifyException e )
       {

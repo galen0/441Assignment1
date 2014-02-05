@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/paper_texture332" >
 
-    <edu.umich.icedDynamite.WeWrite.CustomEditText
+    <EditText
         android:id="@+id/broadcastText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -14,10 +14,10 @@
         android:layout_alignParentTop="true"
         android:ems="10"
         android:gravity="top"
-        android:inputType="textMultiLine" >
-
+        android:longClickable="false"
+        android:inputType="textFilter|textMultiLine" >
         <requestFocus />
-    </edu.umich.icedDynamite.WeWrite.CustomEditText>
+    </EditText>
 
     <Button
         android:id="@+id/RedoButton"
