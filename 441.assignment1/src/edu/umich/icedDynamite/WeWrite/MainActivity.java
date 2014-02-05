@@ -8,7 +8,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import java.util.Stack;
 import java.util.concurrent.ExecutionException;
 
@@ -58,6 +57,7 @@ public class MainActivity extends Activity implements
   private Button undoButton;
   private Button redoButton;
   private Button displayNameButton;
+  private Button handleButton;
   private ArrayList<String> tags = new ArrayList<String>();
   private long sessionId;
   private String sessionName;
@@ -79,6 +79,15 @@ public class MainActivity extends Activity implements
   // Undo and Redo action stacks
   Stack<TextAction> undoStack = new Stack<TextAction>();
   Stack<TextAction> redoStack = new Stack<TextAction>();
+  
+  //Toggle Options button text
+  public void toggleOptions(View v) {
+      showToast("Checking " + handleButton.getText().toString());
+	  if(handleButton.getText().toString().equals("[+] Show Options"))
+		  handleButton.setText("[-] Hide Options");
+	  else
+		  handleButton.setText("[:|] Show Options");
+  }
   
   // Apply an action
   public void applyAction(TextAction recvText){
@@ -277,7 +286,8 @@ public class MainActivity extends Activity implements
     redoButton = (Button) findViewById(R.id.UndoButton);
     redoButton.setEnabled(false);
     displayNameButton = (Button) findViewById(R.id.DisplayNameButton);
-    displayNameButton.setText(DISPLAY_NAME);
+    displayNameButton.setText("Change Display Name (" + DISPLAY_NAME + ")");
+    handleButton = (Button) findViewById(R.id.handle);
    
     broadcastTextWatcher = new TextWatcher(){
 		@Override
@@ -370,7 +380,7 @@ public class MainActivity extends Activity implements
 		        public void onClick(DialogInterface dialog, int whichButton) {
 		        	//change the display name
 		        	DISPLAY_NAME = input.getText().toString();
-		        	displayNameButton.setText(DISPLAY_NAME);
+		        	displayNameButton.setText("Change Display Name (" + DISPLAY_NAME + ")");
 		        	
 		        	// Instantiate client object
 		            try
