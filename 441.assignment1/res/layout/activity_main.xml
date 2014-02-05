@@ -1,7 +1,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:background="@drawable/paper_texture332" >
 
     <EditText
         android:id="@+id/broadcastText"
@@ -19,19 +20,10 @@
     </EditText>
 
     <Button
-        android:id="@+id/getSessionButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:onClick="doJoinSession"
-        android:text="Join Session" />
-
-    <Button
         android:id="@+id/RedoButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/LeaveSessionButton"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:onClick="redo"
         android:text="Redo" />
@@ -40,37 +32,75 @@
         android:id="@+id/UndoButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/getSessionButton"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:onClick="undo"
         android:text="Undo" />
 
-    <Button
-        android:id="@+id/LeaveSessionButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <RelativeLayout
+        android:id="@+id/relDrawerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:onClick="doLeaveSession"
-        android:text="Leave Session" />
+        android:layout_alignParentLeft="true" >
 
-    <Button
-        android:id="@+id/ConnectButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/UndoButton"
-        android:layout_alignBottom="@+id/UndoButton"
-        android:layout_centerHorizontal="true"
-        android:onClick="doCreateSession"
-        android:text="Create Session" />
+        <SlidingDrawer
+            android:id="@+id/slidingDrawer1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:content="@+id/content"
+            android:handle="@+id/handle" >
 
-    <Button
-        android:id="@+id/DisplayNameButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:onClick="changeName"
-        android:text="New User" />
+            <Button
+                android:id="@+id/handle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="toggleOptions"
+                android:text="Toggle Options"/>
+
+            <RelativeLayout
+                android:id="@+id/content"
+                android:layout_width="617dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/torn_paper" >
+
+                <Button
+                    android:id="@+id/ConnectButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:onClick="doCreateSession"
+                    android:text="Create Session" />
+
+                <Button
+                    android:id="@+id/LeaveSessionButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/getSessionButton"
+                    android:layout_centerHorizontal="true"
+                    android:onClick="doLeaveSession"
+                    android:text="Leave Session" />
+
+                <Button
+                    android:id="@+id/getSessionButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/ConnectButton"
+                    android:layout_centerHorizontal="true"
+                    android:onClick="doJoinSession"
+                    android:text="Join Session" />
+
+                <Button
+                    android:id="@+id/DisplayNameButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/LeaveSessionButton"
+                    android:layout_centerHorizontal="true"
+                    android:onClick="changeName"
+                    android:text="Change Display Name(New User)" />
+            </RelativeLayout>
+        </SlidingDrawer>
+    </RelativeLayout>
 
 </RelativeLayout>
