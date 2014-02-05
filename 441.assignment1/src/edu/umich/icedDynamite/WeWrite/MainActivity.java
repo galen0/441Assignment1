@@ -169,7 +169,7 @@ public class MainActivity extends Activity implements
   public void onSessionCreated(final CollabrifySession session)
   {
     sessionId = session.id();
-    sessionName = session.name().substring(15, session.name().length()-1);
+    sessionName = session.name().substring(14, session.name().length()-1);
     runOnUiThread(new Runnable()
     {
 
@@ -189,7 +189,7 @@ public class MainActivity extends Activity implements
   @Override
   public void onSessionJoined(long maxOrderId, long baseFileSize)
   {
-    sessionName = myClient.currentSession().name().substring(15, myClient.currentSession().name().length()-1);
+    sessionName = myClient.currentSession().name().substring(14, myClient.currentSession().name().length()-1);
     sessionId = myClient.currentSession().id();
     runOnUiThread(new Runnable()
     {
@@ -487,7 +487,7 @@ public class MainActivity extends Activity implements
     List<String> sessionNames = new ArrayList<String>();
     for( CollabrifySession s : sessionList ) {
     	//Strip the surrounding "Iced Dynamite(_)" from the name
-    	String str = s.name().substring(15, s.name().length()-1);
+    	String str = s.name().substring(14, s.name().length()-1);
     	sessionNames.add(str);
     }
     
