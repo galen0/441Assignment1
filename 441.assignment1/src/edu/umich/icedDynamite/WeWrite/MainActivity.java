@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Stack;
 import java.util.concurrent.ExecutionException;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -50,7 +51,7 @@ public class MainActivity extends Activity implements
   private static final String ACCESS_TOKEN = "338692774BBE";
 
   private CollabrifyClient myClient;
-  private CustomEditText broadcastText;
+  private EditText broadcastText;
   private Button connectButton;
   private Button joinButton;
   private Button leaveButton;
@@ -261,7 +262,8 @@ public class MainActivity extends Activity implements
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
 
-    broadcastText = (CustomEditText) findViewById(R.id.broadcastText);
+    broadcastText = (EditText) findViewById(R.id.broadcastText);
+    
     connectButton = (Button) findViewById(R.id.ConnectButton);
 
     joinButton = (Button) findViewById(R.id.getSessionButton);
