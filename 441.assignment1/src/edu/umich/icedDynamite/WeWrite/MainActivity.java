@@ -61,7 +61,6 @@ public class MainActivity extends Activity implements
   private String sessionName;
   private String password = "password";
   
-  
   // redundant but for the sake of readability
   private CollabrifySessionListener sessionListener = this;
   private CollabrifyListSessionsListener listSessionsListener = this;
@@ -76,6 +75,16 @@ public class MainActivity extends Activity implements
   // Undo and Redo action stacks
   Stack<TextAction> undoStack = new Stack<TextAction>();
   Stack<TextAction> redoStack = new Stack<TextAction>();
+  
+  // Apply an action
+  public void applyAction(TextAction action){
+	  //TODO: Implement applyAction
+  }
+  
+  // Revert an action
+  public void revertAction(TextAction action){
+	  //TODO: Implement applyAction
+  }
   
   // Convert object to byte array
   public static byte[] serialize(Object obj) throws IOException {
@@ -178,8 +187,6 @@ public class MainActivity extends Activity implements
         connectButton.setEnabled(false);
         joinButton.setEnabled(false);
         leaveButton.setEnabled(true);
-        undoButton.setEnabled(true);
-        redoButton.setEnabled(true);
       }
     });
   }
@@ -304,12 +311,43 @@ public class MainActivity extends Activity implements
   
   public void undo(View v)
   {
-	  //TODO: Implement undo
+	  if(!undoStack.empty()) {
+		  
+		  //Pop action off undo stack & revert it
+		  TextAction action = undoStack.pop();
+		  applyAction(action);
+		  
+		  //place action on redo stack
+		  redoStack.push(action);
+		  
+		  //Disable undo button if stack is empty
+		  if(undoStack.empty())
+			  undoButton.setEnabled(false);
+		  
+		  //Enable redoButton
+		  redoButton.setEnabled(true);
+	  }
+		  
   }
   
   public void redo(View v)
   {
-	  //TODO: Implement redo
+	  if(!redoStack.empty()) {
+		  
+		  //Pop action off redo stack & apply it
+		  TextAction action = undoStack.pop();
+		  revertAction(action);
+		  
+		  //place action on undo stack
+		  undoStack.push(action);
+		  
+		  //Disable redo button if stack is empty
+		  if(redoStack.empty())
+			  redoButton.setEnabled(false);
+		  
+		  //Enable undoButton
+		  undoButton.setEnabled(true);
+	  }
   }
   
   public void doBroadcast(View v)
