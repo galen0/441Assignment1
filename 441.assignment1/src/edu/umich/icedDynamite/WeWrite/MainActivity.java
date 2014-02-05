@@ -340,6 +340,9 @@ public class MainActivity extends Activity implements
 				Log.d("BROADCAST", "BROADCAST");
 				doBroadcast(getWindow().getDecorView().findViewById(android.R.id.content), broadcastData);
 
+				if(!undoStack.empty())
+					undoButton.setEnabled(true);
+				
 				if(undoToggle == false) {
 					// Add the action to the undo stack
 					Log.d("UNDO", "PUSH UNDO STACK");
@@ -490,15 +493,9 @@ public class MainActivity extends Activity implements
     {
       try
       {
-    	// Create and serialize textAction with location and text
-    	//TextAction broadcastInfo = new TextAction();
-    	//broadcastInfo.location = broadcastText.getSelectionEnd();
     	
     	myClient.broadcast(serialize(broadcastData), "lol", broadcastListener);
 
-//        myClient.broadcast(broadcastText.getText().toString().getBytes(),
-//            "lol", broadcastListener);
-        
         //showToast(broadcastData.text + " broadcasted");
       }
       catch( CollabrifyException e )
