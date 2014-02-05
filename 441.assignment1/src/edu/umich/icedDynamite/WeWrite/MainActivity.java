@@ -179,7 +179,7 @@ public class MainActivity extends Activity implements
     sessionId = session.id();
     sessionName = session.name().substring(14, session.name().length()-1);
     participantId = myClient.currentSessionParticipantId();
-    Log.d("id", Long.toString(participantId));
+    Log.d("parid", Long.toString(participantId));
     runOnUiThread(new Runnable()
     {
 
@@ -282,24 +282,24 @@ public class MainActivity extends Activity implements
 				Log.d("KEY_EVENT", "typed a backspace at " + Integer.toString(start+before));
 				broadcastData.text = "0";
 				broadcastData.backspace = true;
-				broadcastData.location = start + before;
+				broadcastData.location = broadcastText.getSelectionEnd();
 			}
 			else if (count > before){
 				broadcastData.backspace = false;
 				if (start == 0 && before == 0 && count == 1){ //beginning
 					Log.d("KEY_EVENT", "typed: " + s.toString().substring(0,1) + " at beginning");	
 					broadcastData.text = s.toString().substring(0,1);
-					broadcastData.location = 0;
+					broadcastData.location = broadcastText.getSelectionEnd();
 				}
 				else if (start != 0 && count == 1){ //middle
 					Log.d("KEY_EVENT", "typed: " + s.toString().substring(start, start+count) + " at " + Integer.toString(start));
 					broadcastData.text = s.toString().substring(start, start+count);
-					broadcastData.location = start;
+					broadcastData.location = broadcastText.getSelectionEnd();
 				}
 				else{
 					Log.d("KEY_EVENT", "typed: " + s.toString().substring(before, count) + " at " + Integer.toString(before+start));
 					broadcastData.text = s.toString().substring(before, count);
-					broadcastData.location = before;
+					broadcastData.location = broadcastText.getSelectionEnd();
 				}
 			}
 			else {
