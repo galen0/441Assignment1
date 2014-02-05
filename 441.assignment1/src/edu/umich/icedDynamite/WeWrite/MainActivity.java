@@ -113,8 +113,11 @@ public class MainActivity extends Activity implements
       public void run()
       {
     	try {
-//    	  TextAction recvText = (TextAction) deserialize(data);
-//    	  broadcastText.getText().replace(recvText.location, 1, recvText.text);
+    	  TextAction recvText = (TextAction) deserialize(data);
+    	  applyAction(recvText);
+    	  
+    	  /*
+    	  broadcastText.getText().replace(recvText.location, 1, recvText.text);
     	  
 	      Utils.printMethodName(TAG);
 	      String message = new String(data);
@@ -122,6 +125,7 @@ public class MainActivity extends Activity implements
 	      broadcastText.setText(message);
 	      broadcastText.setSelection(broadcastText.getText().length());
 	      broadcastText.addTextChangedListener(broadcastTextWatcher);
+	      */
 		} 
         catch (Exception e) {
 		  // TODO Auto-generated catch block
@@ -277,6 +281,10 @@ public class MainActivity extends Activity implements
 		public void afterTextChanged(Editable s) {
 			Log.d("BROADCAST", "WTFFF");
 			doBroadcast(getWindow().getDecorView().findViewById(android.R.id.content));
+			
+			//TODO: Add the action to the undo stack
+			//TextAction justDone = 
+			//undoStack.push(justDone);
 		}
 
 		@Override
