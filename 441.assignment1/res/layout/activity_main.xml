@@ -47,31 +47,25 @@
         <SlidingDrawer
             android:id="@+id/slidingDrawer1"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="270dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
             android:content="@+id/content"
             android:handle="@+id/handle" >
 
             <Button
                 android:id="@+id/handle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="150dp"
+                android:layout_height="45dp"
+                android:background="@drawable/torn_paper"
                 android:onClick="toggleOptions"
-                android:text="Toggle Options"/>
+                android:text="Toggle Options" />
 
             <RelativeLayout
                 android:id="@+id/content"
-                android:layout_width="617dp"
+                android:layout_width="878dp"
                 android:layout_height="wrap_content"
                 android:background="@drawable/torn_paper" >
-
-                <Button
-                    android:id="@+id/ConnectButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_centerHorizontal="true"
-                    android:onClick="doCreateSession"
-                    android:text="Create Session" />
 
                 <Button
                     android:id="@+id/LeaveSessionButton"
@@ -99,8 +93,19 @@
                     android:layout_centerHorizontal="true"
                     android:onClick="changeName"
                     android:text="Change Display Name(New User)" />
+
+                <Button
+                    android:id="@+id/ConnectButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="5dp"
+                    android:onClick="doCreateSession"
+                    android:text="Create Session" />
             </RelativeLayout>
         </SlidingDrawer>
+
     </RelativeLayout>
 
 </RelativeLayout>
