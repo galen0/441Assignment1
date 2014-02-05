@@ -218,6 +218,7 @@ public class MainActivity extends Activity implements
         leaveButton.setEnabled(true);
         displayNameButton.setEnabled(false);
         broadcastText.setText("");
+        broadcastText.setEnabled(true);
       }
     });
   }
@@ -240,6 +241,8 @@ public class MainActivity extends Activity implements
         joinButton.setEnabled(false);
         leaveButton.setEnabled(true);
         displayNameButton.setEnabled(false);
+        broadcastText.setText("");
+        broadcastText.setEnabled(true);
       }
     });
   }
@@ -280,6 +283,7 @@ public class MainActivity extends Activity implements
         redoButton.setEnabled(false);
         displayNameButton.setEnabled(true);
         broadcastText.setText("");
+        broadcastText.setEnabled(false);
       }
     });
   }
@@ -304,6 +308,8 @@ public class MainActivity extends Activity implements
     displayNameButton = (Button) findViewById(R.id.DisplayNameButton);
     displayNameButton.setText("Change Display Name (" + DISPLAY_NAME + ")");
     handleButton = (Button) findViewById(R.id.handle);
+    broadcastText.setText("");
+    broadcastText.setEnabled(false);
    
     broadcastTextWatcher = new TextWatcher(){
 		@Override
