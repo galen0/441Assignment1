@@ -21,19 +21,21 @@
 
     <Button
         android:id="@+id/RedoButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="60dp"
+        android:layout_height="45dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
+        android:background="@drawable/scrap_paper"
         android:onClick="redo"
         android:text="Redo" />
 
     <Button
         android:id="@+id/UndoButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="60dp"
+        android:layout_height="45dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
+        android:background="@drawable/scrap_paper"
         android:onClick="undo"
         android:text="Undo" />
 
@@ -69,40 +71,45 @@
 
                 <Button
                     android:id="@+id/LeaveSessionButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="160dp"
+                    android:layout_height="45dp"
                     android:layout_below="@+id/getSessionButton"
                     android:layout_centerHorizontal="true"
+                    android:background="@drawable/scrap_paper"
                     android:onClick="doLeaveSession"
                     android:text="Leave Session" />
 
                 <Button
                     android:id="@+id/getSessionButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="150dp"
+                    android:layout_height="45dp"
                     android:layout_below="@+id/ConnectButton"
                     android:layout_centerHorizontal="true"
+                    android:background="@drawable/scrap_paper"
                     android:onClick="doJoinSession"
                     android:text="Join Session" />
 
                 <Button
                     android:id="@+id/DisplayNameButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="170dp"
+                    android:layout_height="45dp"
                     android:layout_below="@+id/LeaveSessionButton"
                     android:layout_centerHorizontal="true"
+                    android:background="@drawable/scrap_paper"
                     android:onClick="changeName"
                     android:text="Change Display Name(New User)" />
 
                 <Button
                     android:id="@+id/ConnectButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="150dp"
+                    android:layout_height="45dp"
                     android:layout_alignParentTop="true"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="5dp"
+                    android:background="@drawable/scrap_paper"
                     android:onClick="doCreateSession"
                     android:text="Create Session" />
+
             </RelativeLayout>
         </SlidingDrawer>
 
