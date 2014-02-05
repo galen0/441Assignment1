@@ -102,14 +102,14 @@ public class MainActivity extends Activity implements
 	  TextAction temp;
 	  for(int i = 0; i < undoStack.size(); i++) {
 		  temp = undoStack.elementAt(i);
-		  if(temp.location > action.location) {
+		  if(temp.location > (action.location-1)) {
 			  temp.location--;
 			  undoStack.set(i, temp);
 		  }
 	  }
 	  for(int i = 0; i < redoStack.size(); i++) {
 		  temp = redoStack.elementAt(i);
-		  if(temp.location > action.location) {
+		  if(temp.location > (action.location-1)) {
 			  temp.location--;
 			  redoStack.set(i, temp);
 		  }
@@ -364,6 +364,12 @@ public class MainActivity extends Activity implements
 
 				if(!undoStack.empty())
 					undoButton.setEnabled(true);
+				else
+					undoButton.setEnabled(false);
+				if(!redoStack.empty())
+					redoButton.setEnabled(true);
+				else
+					redoButton.setEnabled(false);
 				
 				if(undoToggle == false) {
 					// Add the action to the undo stack
