@@ -364,6 +364,12 @@ public class MainActivity extends Activity implements
 
 				if(!undoStack.empty())
 					undoButton.setEnabled(true);
+				else
+					undoButton.setEnabled(false);
+				if(!redoStack.empty())
+					redoButton.setEnabled(true);
+				else
+					redoButton.setEnabled(false);
 				
 				if(undoToggle == false) {
 					// Add the action to the undo stack
