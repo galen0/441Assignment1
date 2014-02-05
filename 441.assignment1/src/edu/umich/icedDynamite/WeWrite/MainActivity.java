@@ -22,6 +22,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 import edu.umich.icedDynamite.WeWrite.R;
 import edu.umich.imlc.android.common.Utils;
@@ -413,17 +414,31 @@ public class MainActivity extends Activity implements
 
   public void doCreateSession(View v)
   {
-    try
-    {
-      Random rand = new Random();
-      sessionName = "Iced Dynamite(" + rand.nextInt(Integer.MAX_VALUE) + ")";
-      myClient.createSession(sessionName, tags, password, 0,
-          createSessionListener, sessionListener);
-    }
-    catch( CollabrifyException e )
-    {
-      onError(e);
-    }
+	// Set an EditText view to get user input 
+	final EditText input = new EditText(this);
+	
+	  new AlertDialog.Builder(this)
+	    .setTitle("New Session")
+	    .setMessage("Enter the new session name.")
+	    .setView(input)
+	    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+	        public void onClick(DialogInterface dialog, int whichButton) {
+	        	String name = input.getText().toString();
+				sessionName = "Iced Dynamite(" + name + ")";
+				try{
+					myClient.createSession(sessionName, tags, password, 0,
+							createSessionListener, sessionListener);
+				}
+			    catch( CollabrifyException e )
+			    {
+			      onError(e);
+			    } 
+	        }
+	    }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+	        public void onClick(DialogInterface dialog, int whichButton) {
+	            // Do nothing.
+	        }
+	    }).show();
   }
 
   public void doJoinSession(View v)
