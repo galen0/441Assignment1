@@ -187,12 +187,20 @@ public class MainActivity extends Activity implements
   @Override
   public void onReceiveSessionList(List<CollabrifySession> sessionList)
   {
-    if( sessionList.isEmpty() )
+	    //Filter out sessions
+	  	List<CollabrifySession> newSessionList = new ArrayList<CollabrifySession>();
+	    for( CollabrifySession s : sessionList )
+	    {
+	      	//Filter by Iced Dynamite
+	    	if(s.name().startsWith("Iced Dynamite"))
+	    		newSessionList.add(s);
+	    }
+    if( newSessionList.isEmpty() )
     {
       showToast("No sessions available");
       return;
     }
-    displaySessionList(sessionList);
+    displaySessionList(newSessionList);
   }
 
   @Override
@@ -408,10 +416,7 @@ public class MainActivity extends Activity implements
     // Create a list of session names
     List<String> sessionNames = new ArrayList<String>();
     for( CollabrifySession s : sessionList )
-    {
-      //TODO: add filter
       sessionNames.add(s.name());
-    }
 
     // create a dialog to show the list of session names to the user
     final AlertDialog.Builder builder = new AlertDialog.Builder(
