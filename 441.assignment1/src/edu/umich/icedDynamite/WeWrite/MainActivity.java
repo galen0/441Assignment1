@@ -79,10 +79,13 @@ public class MainActivity extends Activity implements
   
   // Apply an action
   public void applyAction(TextAction recvText){
-	  int prevLocation = broadcastText.getSelectionEnd();
+	  //int prevLocation = broadcastText.getSelectionEnd();
 	  Editable text = broadcastText.getText();
 	  
       broadcastText.removeTextChangedListener(broadcastTextWatcher);
+      
+      Log.d("RECEIVE", recvText.text);
+      Log.d("RECEIVE", Integer.toString(recvText.location));
       
       if(recvText.backspace == false) {
     	  text.insert(recvText.location, recvText.text);
@@ -93,7 +96,7 @@ public class MainActivity extends Activity implements
 	      broadcastText.setSelection(recvText.location);
     	  broadcastText.dispatchKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DEL));
       }
-      broadcastText.setSelection(prevLocation);
+      broadcastText.setSelection(broadcastText.getSelectionEnd());
       
       broadcastText.addTextChangedListener(broadcastTextWatcher);
   }
