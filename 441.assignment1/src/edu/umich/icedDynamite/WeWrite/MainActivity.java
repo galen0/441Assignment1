@@ -116,10 +116,13 @@ public class MainActivity extends Activity implements
     	try {
     	  TextAction recvText = (TextAction) deserialize(data);
     	  
+    	  Log.d("RECEIVE", recvText.text);
+    	  Log.d("LOCATION", Integer.toString(recvText.location));
+    	  
     	  int prevLocation = broadcastText.getSelectionEnd();
 	      broadcastText.removeTextChangedListener(broadcastTextWatcher);
 	      if(recvText.backspace == false) {
-	    	  broadcastText.getText().replace(recvText.location, recvText.location+1, recvText.text);
+	    	  broadcastText.setText(broadcastText.getText().replace(recvText.location, recvText.location+1, recvText.text));
 	      }
 	      else {
 		      broadcastText.setSelection(recvText.location);
