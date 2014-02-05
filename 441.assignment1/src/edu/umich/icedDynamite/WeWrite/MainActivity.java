@@ -78,8 +78,24 @@ public class MainActivity extends Activity implements
   Stack<TextAction> redoStack = new Stack<TextAction>();
   
   // Apply an action
-  public void applyAction(TextAction action){
-	  //TODO: Implement applyAction
+  public void applyAction(TextAction recvText){
+	  int prevLocation = broadcastText.getSelectionEnd();
+	  Editable text = broadcastText.getText();
+	  
+      broadcastText.removeTextChangedListener(broadcastTextWatcher);
+      
+      if(recvText.backspace == false) {
+    	  text.insert(recvText.location, recvText.text);
+    	  broadcastText.setText(text);
+    	  //broadcastText.getText().replace(recvText.location, recvText.location+1, recvText.text);
+      }
+      else {
+	      broadcastText.setSelection(recvText.location);
+    	  broadcastText.dispatchKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DEL));
+      }
+      broadcastText.setSelection(prevLocation);
+      
+      broadcastText.addTextChangedListener(broadcastTextWatcher);
   }
   
   // Revert an action
@@ -116,22 +132,6 @@ public class MainActivity extends Activity implements
     	try {
     	  TextAction recvText = (TextAction) deserialize(data);
     	  applyAction(recvText);
-    	  
-    	  Log.d("RECEIVE", recvText.text);
-    	  Log.d("LOCATION", Integer.toString(recvText.location));
-    	  
-    	  int prevLocation = broadcastText.getSelectionEnd();
-	      broadcastText.removeTextChangedListener(broadcastTextWatcher);
-	      if(recvText.backspace == false) {
-	    	  broadcastText.setText(broadcastText.getText().replace(recvText.location, recvText.location+1, recvText.text));
-	      }
-	      else {
-		      broadcastText.setSelection(recvText.location);
-	    	  broadcastText.dispatchKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DEL));
-	      }
-	      broadcastText.setSelection(prevLocation);
-	      
-	      broadcastText.addTextChangedListener(broadcastTextWatcher);
     	  
 //	      Utils.printMethodName(TAG);
 //	      String message = new String(data);
