@@ -19,6 +19,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -50,7 +51,6 @@ public class MainActivity extends Activity implements
 
   private CollabrifyClient myClient;
   private CustomEditText broadcastText;
-  private TextAction textAction;
   private Button connectButton;
   private Button joinButton;
   private Button leaveButton;
@@ -104,15 +104,27 @@ public class MainActivity extends Activity implements
       public void run()
       {
     	try {
-//    	  TextAction recvText = (TextAction) deserialize(data);
-//    	  broadcastText.getText().replace(recvText.location, 1, recvText.text);
+    	  TextAction recvText = (TextAction) deserialize(data);
+    	  
+    	  int prevLocation = broadcastText.getSelectionEnd();
+	      broadcastText.removeTextChangedListener(broadcastTextWatcher);
+	      if(recvText.backspace == false) {
+	    	  broadcastText.getText().replace(recvText.location, 1, recvText.text);
+	      }
+	      else {
+		      broadcastText.setSelection(recvText.location);
+	    	  broadcastText.dispatchKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DEL));
+	      }
+	      broadcastText.setSelection(prevLocation);
+	      
+	      broadcastText.addTextChangedListener(broadcastTextWatcher);
     	  
 	      Utils.printMethodName(TAG);
-	      String message = new String(data);
-	      broadcastText.removeTextChangedListener(broadcastTextWatcher);
-	      broadcastText.setText(message);
-	      broadcastText.setSelection(broadcastText.getText().length());
-	      broadcastText.addTextChangedListener(broadcastTextWatcher);
+//	      String message = new String(data);
+//	      broadcastText.removeTextChangedListener(broadcastTextWatcher);
+//	      broadcastText.setText(message);
+//	      broadcastText.setSelection(broadcastText.getText().length());
+//	      broadcastText.addTextChangedListener(broadcastTextWatcher);
 		} 
         catch (Exception e) {
 		  // TODO Auto-generated catch block
@@ -136,7 +148,7 @@ public class MainActivity extends Activity implements
   @Override
   public void onBroadcastDone(final byte[] event, long orderId, long srid)
   {
-    showToast(new String(event) + " broadcasted");
+    //showToast(new String(event) + " broadcasted");
   }
 
   @Override
@@ -235,35 +247,48 @@ public class MainActivity extends Activity implements
     broadcastTextWatcher = new TextWatcher(){
 		@Override
 		public void onTextChanged(CharSequence s, int start, int before, int count) {
-			// TODO Auto-generated method stub
+			TextAction broadcastData = new TextAction();
+			broadcastData.broadcast = true;
 			if (count < before){
 				//textAction.location = start+before;
 				//Log.d("KEY_EVENT", Character.toString(s.charAt(start+before)));
 				Log.d("KEY_EVENT", "typed a backspace at " + Integer.toString(start+before));
+				broadcastData.backspace = true;
+				broadcastData.location = start + before;
 			}
 			else if (count > before){
+				broadcastData.backspace = false;
 				if (start == 0 && before == 0 && count == 1){ //beginning
 					Log.d("KEY_EVENT", "typed: " + s.toString().substring(0,1) + " at beginning");	
+					broadcastData.text = s.toString().substring(0,1);
+					broadcastData.location = 0;
 				}
 				else if (start != 0 && count == 1){ //middle
 					Log.d("KEY_EVENT", "typed: " + s.toString().substring(start, start+count) + " at " + Integer.toString(start));
+					broadcastData.text = s.toString().substring(start, start+count);
+					broadcastData.location = start;
 				}
 				else{
 					Log.d("KEY_EVENT", "typed: " + s.toString().substring(before, count) + " at " + Integer.toString(before+start));
+					broadcastData.text = s.toString().substring(before, count);
+					broadcastData.location = before;
 				}
 			}
 			else {
 				Log.d("KEY_EVENT", "else: " + s.toString());
+				broadcastData.broadcast = false;
 			}
 			
 			//Log.d("KEY_EVENT", "start: " + start + " before: " + before + " count: " + count);
 			Log.d("KEY_EVENT", "++++++++++++++++++++");
+			if(broadcastData.broadcast) {
+				Log.d("BROADCAST", "BROADCAST");
+				doBroadcast(getWindow().getDecorView().findViewById(android.R.id.content), broadcastData);
+			}
 		}
 
 		@Override
 		public void afterTextChanged(Editable s) {
-			Log.d("BROADCAST", "WTFFF");
-			doBroadcast(getWindow().getDecorView().findViewById(android.R.id.content));
 		}
 
 		@Override
@@ -304,7 +329,7 @@ public class MainActivity extends Activity implements
 	  //TODO: Implement redo
   }
   
-  public void doBroadcast(View v)
+  public void doBroadcast(View v, TextAction broadcastData)
   {
     if( broadcastText.getText().toString().isEmpty() )
       return;
@@ -316,11 +341,12 @@ public class MainActivity extends Activity implements
     	//TextAction broadcastInfo = new TextAction();
     	//broadcastInfo.location = broadcastText.getSelectionEnd();
     	
-    	//myClient.broadcast(serialize(broadcastInfo), "lol", broadcastListener);
+    	myClient.broadcast(serialize(broadcastData), "lol", broadcastListener);
 
-        myClient.broadcast(broadcastText.getText().toString().getBytes(),
-            "lol", broadcastListener);
+        //myClient.broadcast(broadcastText.getText().toString().getBytes(),
+        //    "lol", broadcastListener);
         //broadcastText.getText().clear();
+        showToast(broadcastData.text + " broadcasted");
       }
       catch( CollabrifyException e )
       {
