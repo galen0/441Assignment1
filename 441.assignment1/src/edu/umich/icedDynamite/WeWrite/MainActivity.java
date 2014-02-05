@@ -46,7 +46,7 @@ public class MainActivity extends Activity implements
   private static String TAG = "dummy";
 
   private static final String GMAIL = "iceddynamite@umich.edu";
-  private static final String DISPLAY_NAME = "A user";
+  private static String DISPLAY_NAME = "New User";
   private static final String ACCOUNT_GMAIL = "441winter2014@umich.edu";
   private static final String ACCESS_TOKEN = "338692774BBE";
 
@@ -57,6 +57,7 @@ public class MainActivity extends Activity implements
   private Button leaveButton;
   private Button undoButton;
   private Button redoButton;
+  private Button displayNameButton;
   private ArrayList<String> tags = new ArrayList<String>();
   private long sessionId;
   private String sessionName;
@@ -192,6 +193,7 @@ public class MainActivity extends Activity implements
         joinButton.setEnabled(false);
         leaveButton.setEnabled(true);
         broadcastText.setText("");
+        displayNameButton.setEnabled(false);
       }
     });
   }
@@ -213,6 +215,7 @@ public class MainActivity extends Activity implements
         connectButton.setEnabled(false);
         joinButton.setEnabled(false);
         leaveButton.setEnabled(true);
+        displayNameButton.setEnabled(false);
       }
     });
   }
@@ -251,6 +254,7 @@ public class MainActivity extends Activity implements
         leaveButton.setEnabled(false);
         undoButton.setEnabled(false);
         redoButton.setEnabled(false);
+        displayNameButton.setEnabled(true);
         broadcastText.setText("");
       }
     });
@@ -272,6 +276,8 @@ public class MainActivity extends Activity implements
     undoButton.setEnabled(false);
     redoButton = (Button) findViewById(R.id.UndoButton);
     redoButton.setEnabled(false);
+    displayNameButton = (Button) findViewById(R.id.DisplayNameButton);
+    displayNameButton.setText(DISPLAY_NAME);
    
     broadcastTextWatcher = new TextWatcher(){
 		@Override
@@ -352,6 +358,47 @@ public class MainActivity extends Activity implements
     tags.add("sample");
   }
   
+  public void changeName(View v) {
+	  	// Set an EditText view to get user input 
+		final EditText input = new EditText(this);
+		input.setText(DISPLAY_NAME);
+		  new AlertDialog.Builder(this)
+		    .setTitle("Change Display Name")
+		    .setMessage("Enter the new user display name.")
+		    .setView(input)
+		    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+		        public void onClick(DialogInterface dialog, int whichButton) {
+		        	//change the display name
+		        	DISPLAY_NAME = input.getText().toString();
+		        	displayNameButton.setText(DISPLAY_NAME);
+		        	
+		        	// Instantiate client object
+		            try
+		            {
+		              myClient = CollabrifyClient.newClient(MainActivity.this, GMAIL, DISPLAY_NAME,
+		                  ACCOUNT_GMAIL, ACCESS_TOKEN, false);
+		            }
+		            catch( InterruptedException e )
+		            {
+		              Log.e(TAG, "error", e);
+		            }
+		            catch( ExecutionException e )
+		            {
+		              Log.e(TAG, "error", e);
+		            }
+
+
+		            tags.add("sample");
+		        }
+		    }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+		        public void onClick(DialogInterface dialog, int whichButton) {
+		            // Do nothing.
+		        }
+		    }).show();
+	  
+  }
+  
+  //Undoes the last action done by the user
   public void undo(View v)
   {
 	  if(!undoStack.empty()) {
@@ -373,6 +420,7 @@ public class MainActivity extends Activity implements
 		  
   }
   
+  //Redoes the last action undone by the user
   public void redo(View v)
   {
 	  if(!redoStack.empty()) {

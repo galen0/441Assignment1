@@ -18,15 +18,6 @@
     </edu.umich.icedDynamite.WeWrite.CustomEditText>
 
     <Button
-        android:id="@+id/LeaveSessionButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:onClick="doLeaveSession"
-        android:text="Leave Session" />
-
-    <Button
         android:id="@+id/getSessionButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -54,12 +45,31 @@
         android:text="Undo" />
 
     <Button
+        android:id="@+id/LeaveSessionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:onClick="doLeaveSession"
+        android:text="Leave Session" />
+
+    <Button
         android:id="@+id/ConnectButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/LeaveSessionButton"
+        android:layout_alignBaseline="@+id/UndoButton"
+        android:layout_alignBottom="@+id/UndoButton"
         android:layout_centerHorizontal="true"
         android:onClick="doCreateSession"
         android:text="Create Session" />
+
+    <Button
+        android:id="@+id/DisplayNameButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:onClick="changeName"
+        android:text="New User" />
 
 </RelativeLayout>
