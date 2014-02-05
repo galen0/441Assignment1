@@ -59,6 +59,7 @@ public class MainActivity extends Activity implements
   private ArrayList<String> tags = new ArrayList<String>();
   private long sessionId;
   private String sessionName;
+  private long participantId;
   private String password = "password";
   
   // redundant but for the sake of readability
@@ -134,7 +135,10 @@ public class MainActivity extends Activity implements
       {
     	try {
     	  TextAction recvText = (TextAction) deserialize(data);
-    	  applyAction(recvText);
+    	  if (recvText.senderId != participantId){
+    		  Log.d("sid", Long.toString(recvText.senderId));
+    		  applyAction(recvText);
+    	  }
     	  
 //	      Utils.printMethodName(TAG);
 //	      String message = new String(data);
@@ -173,6 +177,8 @@ public class MainActivity extends Activity implements
   {
     sessionId = session.id();
     sessionName = session.name().substring(14, session.name().length()-1);
+    participantId = myClient.currentSessionParticipantId();
+    Log.d("id", Long.toString(participantId));
     runOnUiThread(new Runnable()
     {
 
@@ -194,6 +200,7 @@ public class MainActivity extends Activity implements
   {
     sessionName = myClient.currentSession().name().substring(14, myClient.currentSession().name().length()-1);
     sessionId = myClient.currentSession().id();
+    participantId = myClient.currentSessionParticipantId();
     runOnUiThread(new Runnable()
     {
 
@@ -269,6 +276,7 @@ public class MainActivity extends Activity implements
 		@Override
 		public void onTextChanged(CharSequence s, int start, int before, int count) {
 			broadcastData = new TextAction();
+			broadcastData.senderId = participantId;
 			if (count < before){
 				Log.d("KEY_EVENT", "typed a backspace at " + Integer.toString(start+before));
 				broadcastData.text = "0";

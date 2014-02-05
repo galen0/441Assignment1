@@ -6,11 +6,13 @@ public class TextAction implements java.io.Serializable{
 	public String text;
 	public boolean backspace;
 	public boolean broadcast;
+	public long senderId;
 	
 	public TextAction() {
 		backspace = false;
 		broadcast = true;
 		text = null;
 		location = 0;
+		senderId = -1;
 	}
 }
