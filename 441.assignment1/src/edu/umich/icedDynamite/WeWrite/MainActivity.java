@@ -80,13 +80,40 @@ public class MainActivity extends Activity implements
   Stack<TextAction> undoStack = new Stack<TextAction>();
   Stack<TextAction> redoStack = new Stack<TextAction>();
   
-  //Toggle Options button text
-  public void toggleOptions(View v) {
-      showToast("Checking " + handleButton.getText().toString());
-	  if(handleButton.getText().toString().equals("[+] Show Options"))
-		  handleButton.setText("[-] Hide Options");
-	  else
-		  handleButton.setText("[:|] Show Options");
+  public void shiftRight(TextAction action) {
+	  TextAction temp;
+	  for(int i = 0; i < undoStack.size(); i++) {
+		  temp = undoStack.elementAt(i);
+		  if(temp.location > action.location) {
+			  temp.location++;
+			  undoStack.set(i, temp);
+		  }
+	  }
+	  for(int i = 0; i < redoStack.size(); i++) {
+		  temp = redoStack.elementAt(i);
+		  if(temp.location > action.location) {
+			  temp.location++;
+			  redoStack.set(i, temp);
+		  }
+	  }
+  }
+  
+  public void shiftLeft(TextAction action) {
+	  TextAction temp;
+	  for(int i = 0; i < undoStack.size(); i++) {
+		  temp = undoStack.elementAt(i);
+		  if(temp.location > action.location) {
+			  temp.location--;
+			  undoStack.set(i, temp);
+		  }
+	  }
+	  for(int i = 0; i < redoStack.size(); i++) {
+		  temp = redoStack.elementAt(i);
+		  if(temp.location > action.location) {
+			  temp.location--;
+			  redoStack.set(i, temp);
+		  }
+	  }
   }
   
   // Apply an action
@@ -100,9 +127,11 @@ public class MainActivity extends Activity implements
       
       if(recvText.backspace == false) {
     	  text.insert(recvText.location, recvText.text);
+    	  shiftRight(recvText);
     	  broadcastText.setText(text);
       }
       else {
+    	  shiftLeft(recvText);
 	      broadcastText.setSelection(recvText.location);
     	  broadcastText.dispatchKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DEL));
       }
@@ -143,13 +172,6 @@ public class MainActivity extends Activity implements
     		  Log.d("sid", Long.toString(recvText.senderId));
     		  applyAction(recvText);
     	  }
-    	  
-//	      Utils.printMethodName(TAG);
-//	      String message = new String(data);
-//	      broadcastText.removeTextChangedListener(broadcastTextWatcher);
-//	      broadcastText.setText(message);
-//	      broadcastText.setSelection(broadcastText.getText().length());
-//	      broadcastText.addTextChangedListener(broadcastTextWatcher);
 		} 
         catch (Exception e) {
 		  // TODO Auto-generated catch block
