@@ -113,27 +113,27 @@ public class MainActivity extends Activity implements
       public void run()
       {
     	try {
-//    	  TextAction recvText = (TextAction) deserialize(data);
-//    	  
-//    	  int prevLocation = broadcastText.getSelectionEnd();
-//	      broadcastText.removeTextChangedListener(broadcastTextWatcher);
-//	      if(recvText.backspace == false) {
-//	    	  broadcastText.getText().replace(recvText.location, 1, recvText.text);
-//	      }
-//	      else {
-//		      broadcastText.setSelection(recvText.location);
-//	    	  broadcastText.dispatchKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DEL));
-//	      }
-//	      broadcastText.setSelection(prevLocation);
-//	      
-//	      broadcastText.addTextChangedListener(broadcastTextWatcher);
+    	  TextAction recvText = (TextAction) deserialize(data);
     	  
-	      Utils.printMethodName(TAG);
-	      String message = new String(data);
+    	  int prevLocation = broadcastText.getSelectionEnd();
 	      broadcastText.removeTextChangedListener(broadcastTextWatcher);
-	      broadcastText.setText(message);
-	      broadcastText.setSelection(broadcastText.getText().length());
+	      if(recvText.backspace == false) {
+	    	  broadcastText.getText().replace(recvText.location, 1, recvText.text);
+	      }
+	      else {
+		      broadcastText.setSelection(recvText.location);
+	    	  broadcastText.dispatchKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DEL));
+	      }
+	      broadcastText.setSelection(prevLocation);
+	      
 	      broadcastText.addTextChangedListener(broadcastTextWatcher);
+    	  
+//	      Utils.printMethodName(TAG);
+//	      String message = new String(data);
+//	      broadcastText.removeTextChangedListener(broadcastTextWatcher);
+//	      broadcastText.setText(message);
+//	      broadcastText.setSelection(broadcastText.getText().length());
+//	      broadcastText.addTextChangedListener(broadcastTextWatcher);
 		} 
         catch (Exception e) {
 		  // TODO Auto-generated catch block
@@ -261,11 +261,9 @@ public class MainActivity extends Activity implements
 		@Override
 		public void onTextChanged(CharSequence s, int start, int before, int count) {
 			TextAction broadcastData = new TextAction();
-			broadcastData.broadcast = true;
 			if (count < before){
-				//textAction.location = start+before;
-				//Log.d("KEY_EVENT", Character.toString(s.charAt(start+before)));
 				Log.d("KEY_EVENT", "typed a backspace at " + Integer.toString(start+before));
+				broadcastData.text = "0";
 				broadcastData.backspace = true;
 				broadcastData.location = start + before;
 			}
@@ -385,10 +383,10 @@ public class MainActivity extends Activity implements
     	//TextAction broadcastInfo = new TextAction();
     	//broadcastInfo.location = broadcastText.getSelectionEnd();
     	
-    	//myClient.broadcast(serialize(broadcastData), "lol", broadcastListener);
+    	myClient.broadcast(serialize(broadcastData), "lol", broadcastListener);
 
-        myClient.broadcast(broadcastText.getText().toString().getBytes(),
-            "lol", broadcastListener);
+//        myClient.broadcast(broadcastText.getText().toString().getBytes(),
+//            "lol", broadcastListener);
         
         showToast(broadcastData.text + " broadcasted");
       }
