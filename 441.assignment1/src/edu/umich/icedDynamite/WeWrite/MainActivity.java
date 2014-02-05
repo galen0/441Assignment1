@@ -71,6 +71,7 @@ public class MainActivity extends Activity implements
 
   private TextWatcher broadcastTextWatcher;
   //private boolean recvToggle = false;
+  private TextAction broadcastData;
   
   // Undo and Redo action stacks
   Stack<TextAction> undoStack = new Stack<TextAction>();
@@ -118,7 +119,7 @@ public class MainActivity extends Activity implements
     	  int prevLocation = broadcastText.getSelectionEnd();
 	      broadcastText.removeTextChangedListener(broadcastTextWatcher);
 	      if(recvText.backspace == false) {
-	    	  broadcastText.getText().replace(recvText.location, 1, recvText.text);
+	    	  broadcastText.getText().replace(recvText.location, recvText.location+1, recvText.text);
 	      }
 	      else {
 		      broadcastText.setSelection(recvText.location);
@@ -260,7 +261,7 @@ public class MainActivity extends Activity implements
     broadcastTextWatcher = new TextWatcher(){
 		@Override
 		public void onTextChanged(CharSequence s, int start, int before, int count) {
-			TextAction broadcastData = new TextAction();
+			broadcastData = new TextAction();
 			if (count < before){
 				Log.d("KEY_EVENT", "typed a backspace at " + Integer.toString(start+before));
 				broadcastData.text = "0";
