@@ -71,6 +71,7 @@ public class MainActivity extends Activity implements
 
   private TextWatcher broadcastTextWatcher;
   //private boolean recvToggle = false;
+  private TextAction broadcastData;
   
   // Undo and Redo action stacks
   Stack<TextAction> undoStack = new Stack<TextAction>();
@@ -259,7 +260,7 @@ public class MainActivity extends Activity implements
     broadcastTextWatcher = new TextWatcher(){
 		@Override
 		public void onTextChanged(CharSequence s, int start, int before, int count) {
-			TextAction broadcastData = new TextAction();
+			broadcastData = new TextAction();
 			if (count < before){
 				Log.d("KEY_EVENT", "typed a backspace at " + Integer.toString(start+before));
 				broadcastData.text = "0";
@@ -294,20 +295,16 @@ public class MainActivity extends Activity implements
 			if(broadcastData.broadcast) {
 				Log.d("BROADCAST", "BROADCAST");
 				doBroadcast(getWindow().getDecorView().findViewById(android.R.id.content), broadcastData);
+
+				// Add the action to the undo stack
+				undoStack.push(broadcastData);
+				undoButton.setEnabled(true);
 			}
 		}
 
 		@Override
 		public void afterTextChanged(Editable s) {
-<<<<<<< HEAD
-			Log.d("BROADCAST", "WTFFF");
-			doBroadcast(getWindow().getDecorView().findViewById(android.R.id.content));
-			
-			//TODO: Add the action to the undo stack
-			//TextAction justDone = 
-			//undoStack.push(justDone);
-=======
->>>>>>> a9e7c0288b5866055c09c5bc97c5939492daf8a6
+			// TODO Auto-generated method stub
 		}
 
 		@Override
