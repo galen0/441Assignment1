@@ -92,7 +92,7 @@ public class MainActivity extends Activity implements
 	  for(int i = 0; i < redoStack.size(); i++) {
 		  temp = redoStack.elementAt(i);
 		  if(temp.location > action.location) {
-			  temp.location++;
+			  temp.location--;
 			  redoStack.set(i, temp);
 		  }
 	  }
@@ -102,15 +102,15 @@ public class MainActivity extends Activity implements
 	  TextAction temp;
 	  for(int i = 0; i < undoStack.size(); i++) {
 		  temp = undoStack.elementAt(i);
-		  if(temp.location >= action.location) {
+		  if(temp.location > action.location) {
 			  temp.location--;
 			  undoStack.set(i, temp);
 		  }
 	  }
 	  for(int i = 0; i < redoStack.size(); i++) {
 		  temp = redoStack.elementAt(i);
-		  if(temp.location >= action.location) {
-			  temp.location--;
+		  if(temp.location > action.location) {
+			  temp.location++;
 			  redoStack.set(i, temp);
 		  }
 	  }
