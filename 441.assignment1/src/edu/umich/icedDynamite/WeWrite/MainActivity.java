@@ -115,6 +115,7 @@ public class MainActivity extends Activity implements
       {
     	try {
     	  TextAction recvText = (TextAction) deserialize(data);
+    	  applyAction(recvText);
     	  
     	  Log.d("RECEIVE", recvText.text);
     	  Log.d("LOCATION", Integer.toString(recvText.location));
@@ -299,11 +300,16 @@ public class MainActivity extends Activity implements
 			if(broadcastData.broadcast) {
 				Log.d("BROADCAST", "BROADCAST");
 				doBroadcast(getWindow().getDecorView().findViewById(android.R.id.content), broadcastData);
+
+				// Add the action to the undo stack
+				undoStack.push(broadcastData);
+				undoButton.setEnabled(true);
 			}
 		}
 
 		@Override
 		public void afterTextChanged(Editable s) {
+			// TODO Auto-generated method stub
 		}
 
 		@Override
