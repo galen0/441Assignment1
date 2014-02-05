@@ -288,24 +288,24 @@ public class MainActivity extends Activity implements
 				Log.d("KEY_EVENT", "typed a backspace at " + Integer.toString(start+before));
 				broadcastData.text = "0";
 				broadcastData.backspace = true;
-				broadcastData.location = broadcastText.getSelectionEnd();
+				broadcastData.location = broadcastText.getSelectionEnd()-1;
 			}
 			else if (count > before){
 				broadcastData.backspace = false;
 				if (start == 0 && before == 0 && count == 1){ //beginning
 					Log.d("KEY_EVENT", "typed: " + s.toString().substring(0,1) + " at beginning");	
 					broadcastData.text = s.toString().substring(0,1);
-					broadcastData.location = broadcastText.getSelectionEnd();
+					broadcastData.location = broadcastText.getSelectionEnd()-1;
 				}
 				else if (start != 0 && count == 1){ //middle
 					Log.d("KEY_EVENT", "typed: " + s.toString().substring(start, start+count) + " at " + Integer.toString(start));
 					broadcastData.text = s.toString().substring(start, start+count);
-					broadcastData.location = broadcastText.getSelectionEnd();
+					broadcastData.location = broadcastText.getSelectionEnd()-1;
 				}
 				else{
 					Log.d("KEY_EVENT", "typed: " + s.toString().substring(before, count) + " at " + Integer.toString(before+start));
 					broadcastData.text = s.toString().substring(before, count);
-					broadcastData.location = broadcastText.getSelectionEnd();
+					broadcastData.location = broadcastText.getSelectionEnd()-1;
 				}
 			}
 			else {
