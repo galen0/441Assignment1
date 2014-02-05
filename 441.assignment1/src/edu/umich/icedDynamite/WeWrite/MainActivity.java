@@ -164,8 +164,6 @@ public class MainActivity extends Activity implements
         connectButton.setEnabled(false);
         joinButton.setEnabled(false);
         leaveButton.setEnabled(true);
-        undoButton.setEnabled(true);
-        redoButton.setEnabled(true);
         broadcastText.setText("");
       }
     });
