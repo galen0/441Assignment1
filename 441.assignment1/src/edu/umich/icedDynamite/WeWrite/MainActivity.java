@@ -172,7 +172,7 @@ public class MainActivity extends Activity implements
   public void onSessionCreated(final CollabrifySession session)
   {
     sessionId = session.id();
-    sessionName = session.name();
+    sessionName = session.name().substring(14, session.name().length()-1);
     runOnUiThread(new Runnable()
     {
 
@@ -192,7 +192,7 @@ public class MainActivity extends Activity implements
   @Override
   public void onSessionJoined(long maxOrderId, long baseFileSize)
   {
-    sessionName = myClient.currentSession().name();
+    sessionName = myClient.currentSession().name().substring(14, myClient.currentSession().name().length()-1);
     sessionId = myClient.currentSession().id();
     runOnUiThread(new Runnable()
     {
@@ -488,9 +488,12 @@ public class MainActivity extends Activity implements
   {
     // Create a list of session names
     List<String> sessionNames = new ArrayList<String>();
-    for( CollabrifySession s : sessionList )
-      sessionNames.add(s.name());
-
+    for( CollabrifySession s : sessionList ) {
+    	//Strip the surrounding "Iced Dynamite(_)" from the name
+    	String str = s.name().substring(14, s.name().length()-1);
+    	sessionNames.add(str);
+    }
+    
     // create a dialog to show the list of session names to the user
     final AlertDialog.Builder builder = new AlertDialog.Builder(
         MainActivity.this);
